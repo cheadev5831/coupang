@@ -12,12 +12,13 @@
 // to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
-$primary: #1976d2;
-$secondary: #26a69a;
-$accent: #9c27b0;
+// 쿠팡 브랜드 컬러
+$primary:   #e62418;   // 레드 — 강조 CTA
+$secondary: #ff6b35;   // 오렌지 — 체크 금액 강조
+$accent:    #ff6b35;
 
-$dark: #1d1d1d;
-$dark-page: #121212;
+$dark:      #1a1a2e;   // 딥 네이비 — 헤더·바텀바
+$dark-page: #111121;
 
 $positive: #21ba45;
 $negative: #c10015;

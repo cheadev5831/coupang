@@ -1,0 +1,119 @@
+/* ─── 하단 고정 바 ──────────────────────────────── */
+.summary-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2000;
+  background: #1a1a2e;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 12px 20px;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.22);
+}
+
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .summary-bar {
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+}
+
+/* ─── 전체선택 토글 ─────────────────────────────── */
+.summary-bar__toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  padding-right: 14px;
+}
+
+.summary-bar__toggle-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ─── 구분선 ────────────────────────────────────── */
+.summary-bar__divider {
+  width: 1px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+/* ─── 체크 금액 블록 ─────────────────────────────── */
+.summary-bar__amount-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0 14px;
+}
+
+.summary-bar__amount-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.summary-bar__amount-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ff6b35;
+  letter-spacing: -0.8px;
+  line-height: 1.15;
+}
+
+/* ─── 선택 현황 블록 ─────────────────────────────── */
+.summary-bar__count-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.summary-bar__count-selected {
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.summary-bar__count-total {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ─── 전체 금액 (데스크탑 전용) ─────────────────── */
+.summary-bar__total-block {
+  display: none;
+  flex-direction: column;
+  gap: 1px;
+  flex-shrink: 0;
+  padding-right: 14px;
+}
+
+.summary-bar__total-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 500;
+}
+
+.summary-bar__total-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+@media (min-width: 600px) {
+  .summary-bar__total-block {
+    display: flex;
+  }
+}
