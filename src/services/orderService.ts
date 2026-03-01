@@ -7,7 +7,7 @@
  */
 
 import axios from 'axios';
-import { API_CONFIG, type ProductRow, type StaticDataFile } from 'src/data/default';
+import { API_CONFIG, type ProductRow } from 'src/data/default';
 import type { CoupangOrderListResponse, CoupangOrder } from 'src/types/api';
 
 export interface FetchOrdersResult {
@@ -127,30 +127,4 @@ export async function fetchOrders(
   }
 
   return { products: allProducts, cancelledIds: allCancelledIds };
-}
-
-/**
- * public/data/YYYYMM.json 정적 파일에서 주문 데이터를 로드합니다.
- *
- * 파일이 없으면 null 반환.
- * dev: /data/YYYYMM.json (Vite가 public/ 폴더를 루트로 서빙)
- * production: /coupang/data/YYYYMM.json (GitHub Pages)
- */
-export async function loadOrdersFromStaticFile(
-  year: number,
-  month: number,
-): Promise<FetchOrdersResult | null> {
-  const monthStr = String(month).padStart(2, '0');
-  const base = import.meta.env.BASE_URL ?? '/';
-  const url = `${base}data/${year}${monthStr}.json`;
-
-  try {
-    const { data } = await axios.get<StaticDataFile>(url);
-    return {
-      products: data.products,
-      cancelledIds: new Set(data.cancelledIds),
-    };
-  } catch {
-    return null;
-  }
 }

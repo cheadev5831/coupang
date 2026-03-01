@@ -155,40 +155,6 @@ export const defaultOrderSummary: OrderSummary = {
 export type CheckedItemsMap = Map<MonthCacheKey, Set<string>>;
 
 // ─────────────────────────────────────────────
-// GitHub 설정
-// ─────────────────────────────────────────────
-
-export const GITHUB_TOKEN_KEY = 'github_token' as const;
-export const GITHUB_REPO_KEY = 'github_repo' as const;
-
-export interface GithubState {
-  token: string | null;
-  /** "owner/repo" 형식 */
-  repo: string;
-  isSet: boolean;
-}
-
-export const defaultGithubState: GithubState = {
-  token: null,
-  repo: 'cheadev5831/coupang',
-  isSet: false,
-};
-
-// ─────────────────────────────────────────────
-// 정적 데이터 파일 (public/data/YYYYMM.json)
-// ─────────────────────────────────────────────
-
-/**
- * public/data/YYYYMM.json 파일 형식
- * Set<string>은 JSON 직렬화 불가 → string[] 사용
- */
-export interface StaticDataFile {
-  products: ProductRow[];
-  cancelledIds: string[];
-  savedAt: string;
-}
-
-// ─────────────────────────────────────────────
 // API 설정
 // ─────────────────────────────────────────────
 
