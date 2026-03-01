@@ -81,6 +81,29 @@ export default defineConfig((/* ctx */) => {
     devServer: {
       // https: true,
       open: true, // opens browser window automatically
+      proxy: {
+        '/api': {
+          target: 'https://mc.coupang.com',
+          changeOrigin: true,
+          rewrite: (path: string) => path.replace(/^\/api/, ''),
+          // X-Coupang-Cookie 헤더 → Cookie 헤더로 변환 (브라우저 forbidden-header 우회)
+          configure: (proxy: unknown) => {
+            type ProxyReq = { setHeader: (k: string, v: string) => void; removeHeader: (k: string) => void };
+            type IncomingReq = { headers: Record<string, string | string[] | undefined> };
+            type ProxyEventEmitter = { on: (event: 'proxyReq', cb: (pr: ProxyReq, req: IncomingReq) => void) => void };
+            (proxy as ProxyEventEmitter).on('proxyReq', (proxyReq, req) => {
+              const raw = req.headers['x-coupang-cookie'];
+              const cookieVal = Array.isArray(raw) ? raw[0] : raw;
+              if (cookieVal) {
+                proxyReq.setHeader('Cookie', cookieVal);
+                proxyReq.removeHeader('x-coupang-cookie');
+              }
+              proxyReq.setHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
+              proxyReq.setHeader('Accept', 'application/json');
+            });
+          },
+        },
+      },
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework

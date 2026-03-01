@@ -95,6 +95,8 @@ export interface MonthCache {
   key: MonthCacheKey;
   /** 상품 행 단위 전체 목록 (정렬: orderedAt 내림차순) */
   products: ProductRow[];
+  /** 취소/반품 상품 ID 집합 (ProductRow.id) */
+  cancelledIds: Set<string>;
   cachedAt: string;
   status: 'idle' | 'loading' | 'success' | 'error';
   errorMessage: string | null;
@@ -103,6 +105,7 @@ export interface MonthCache {
 export const defaultMonthCache: MonthCache = {
   key: '',
   products: [],
+  cancelledIds: new Set(),
   cachedAt: '',
   status: 'idle',
   errorMessage: null,
@@ -157,7 +160,7 @@ export type CheckedItemsMap = Map<MonthCacheKey, Set<string>>;
 
 export const API_CONFIG = {
   BASE_URL: '/api',
-  /** 실제 엔드포인트는 개발자가 Network 탭에서 확인 후 수정할 것 */
-  ORDERS_ENDPOINT: '/v2/member/orders',
-  PAGE_SIZE: 20,
+  /** mc.coupang.com 주문 목록 엔드포인트 (precode.js 기준) */
+  ORDERS_ENDPOINT: '/ssr/api/myorders/model/page',
+  PAGE_SIZE: 10,
 } as const;
