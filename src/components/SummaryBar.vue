@@ -1,6 +1,7 @@
 <template>
   <div class="summary-bar">
-    <!-- 전체선택 토글 -->
+
+    <!-- 왼쪽: 전체선택 -->
     <div class="summary-bar__toggle">
       <q-checkbox
         :model-value="checkboxState"
@@ -15,27 +16,25 @@
       <span class="summary-bar__toggle-label">전체선택</span>
     </div>
 
-    <div class="summary-bar__divider" />
-
-    <!-- 전체 금액 (데스크탑에서만 노출) -->
-    <div class="summary-bar__total-block">
-      <span class="summary-bar__total-label">전체 금액</span>
-      <span class="summary-bar__total-value">{{ formatAmount(summary.totalAmount) }}원</span>
+    <!-- 중앙: 금액 + 서브 정보 -->
+    <div class="summary-bar__main">
+      <span class="summary-bar__checked-amount">{{ formatAmount(summary.checkedAmount) }}원</span>
+      <span class="summary-bar__meta">
+        전체 {{ formatAmount(summary.totalAmount) }}원 &nbsp;·&nbsp; {{ summary.checkedCount }}/{{ summary.totalCount }}개 선택
+      </span>
     </div>
 
-    <!-- 체크 금액 (핵심) -->
-    <div class="summary-bar__amount-block">
-      <span class="summary-bar__amount-label">체크 금액</span>
-      <span class="summary-bar__amount-value">{{ formatAmount(summary.checkedAmount) }}원</span>
-    </div>
+    <!-- 오른쪽: 저장 버튼 -->
+    <q-btn
+      class="summary-bar__save-btn"
+      unelevated
+      :loading="isSaving"
+      :disable="summary.totalCount === 0 || isSaving"
+      icon="cloud_upload"
+      label="저장"
+      @click="emit('save')"
+    />
 
-    <div class="summary-bar__divider" />
-
-    <!-- 선택 현황 -->
-    <div class="summary-bar__count-block">
-      <span class="summary-bar__count-selected">{{ summary.checkedCount }}개</span>
-      <span class="summary-bar__count-total">/ {{ summary.totalCount }}개</span>
-    </div>
   </div>
 </template>
 
@@ -46,10 +45,12 @@ import type { OrderSummary } from 'src/data/default';
 
 const props = defineProps<{
   summary: OrderSummary;
+  isSaving?: boolean;
 }>();
 
 const emit = defineEmits<{
   'toggle-all': [checked: boolean];
+  'save': [];
 }>();
 
 const checkboxState = computed<boolean | null>(() => {

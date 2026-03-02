@@ -8,115 +8,83 @@
   background: #1a1a2e;
   display: flex;
   align-items: center;
-  gap: 0;
-  padding: 12px 20px;
-  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.22);
+  gap: 16px;
+  padding: 10px 16px;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.25);
 }
 
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .summary-bar {
-    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
   }
 }
 
-/* ─── 전체선택 토글 ─────────────────────────────── */
+/* ─── 왼쪽: 전체선택 ────────────────────────────── */
 .summary-bar__toggle {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 3px;
   flex-shrink: 0;
-  padding-right: 14px;
 }
 
 .summary-bar__toggle-label {
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.4);
   font-weight: 500;
   white-space: nowrap;
 }
 
-/* ─── 구분선 ────────────────────────────────────── */
-.summary-bar__divider {
-  width: 1px;
-  height: 38px;
-  background: rgba(255, 255, 255, 0.12);
-  flex-shrink: 0;
-}
-
-/* ─── 체크 금액 블록 ─────────────────────────────── */
-.summary-bar__amount-block {
+/* ─── 중앙: 금액 정보 ────────────────────────────── */
+.summary-bar__main {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1px;
-  padding: 0 14px;
+  gap: 2px;
+  min-width: 0;
 }
 
-.summary-bar__amount-label {
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.45);
-  font-weight: 500;
-  line-height: 1;
-}
-
-.summary-bar__amount-value {
+.summary-bar__checked-amount {
   font-size: 22px;
   font-weight: 800;
   color: #ff6b35;
   letter-spacing: -0.8px;
-  line-height: 1.15;
+  line-height: 1.1;
 }
 
-/* ─── 선택 현황 블록 ─────────────────────────────── */
-.summary-bar__count-block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-  flex-shrink: 0;
-}
-
-.summary-bar__count-selected {
-  font-size: 17px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1;
-}
-
-.summary-bar__count-total {
+.summary-bar__meta {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
-  line-height: 1;
-  white-space: nowrap;
-}
-
-/* ─── 전체 금액 ──────────────────────────────── */
-.summary-bar__total-block {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  flex-shrink: 0;
-  padding-right: 14px;
-}
-
-.summary-bar__total-label {
-  font-size: 10px;
   color: rgba(255, 255, 255, 0.35);
-  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1;
 }
 
-.summary-bar__total-value {
-  font-size: 14px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.55);
+/* ─── 오른쪽: 저장 버튼 ─────────────────────────── */
+.summary-bar__save-btn {
+  flex-shrink: 0;
+  height: 44px;
+  min-width: 76px;
+  background: #ff6b35 !important;
+  color: #ffffff !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.2px;
+  transition: opacity 0.15s;
 }
 
-@media (max-width: 400px) {
-  .summary-bar__total-value {
-    font-size: 12px;
+.summary-bar__save-btn.disabled {
+  opacity: 0.3 !important;
+}
+
+@media (max-width: 360px) {
+  .summary-bar__checked-amount {
+    font-size: 18px;
   }
-  .summary-bar__total-block {
-    padding-right: 8px;
+  .summary-bar__save-btn {
+    min-width: 60px;
+    font-size: 13px !important;
   }
 }

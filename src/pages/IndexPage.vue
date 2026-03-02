@@ -79,7 +79,9 @@
     <!-- 하단 고정 금액 집계 바 -->
     <SummaryBar
       :summary="summary"
+      :is-saving="isSaving"
       @toggle-all="onToggleAll"
+      @save="onSave"
     />
   </q-page>
 </template>
@@ -132,6 +134,7 @@ const selectedMonth = reactive<SelectedMonth>({ ...defaultSelectedMonth });
 const monthCacheMap = reactive<Map<MonthCacheKey, MonthCache>>(new Map());
 const checkedItems = reactive<CheckedItemsMap>(new Map());
 const isFetching = ref(false);
+const isSaving = ref(false);
 const errorMessage = ref('');
 const githubErrorMessage = ref('');
 const showCookieWarning = ref(false);
@@ -347,6 +350,25 @@ function onToggle(id: string) {
   }
   // Map 내부 Set 변경은 reactive가 감지하지 못하므로 새 Set으로 교체
   checkedItems.set(key, new Set(set));
+}
+
+async function onSave() {
+  if (!gitHubState.isSet || !gitHubState.token) {
+    $q.notify({ type: 'warning', message: 'GitHub 토큰을 먼저 설정해 주세요.' });
+    return;
+  }
+  const yyyymm = `${selectedMonth.year}${String(selectedMonth.month).padStart(2, '0')}`;
+  isSaving.value = true;
+  githubErrorMessage.value = '';
+  try {
+    await saveOrdersToGitHub(yyyymm, currentProducts.value, currentCancelledIds.value, gitHubState.token);
+    $q.notify({ type: 'positive', message: 'GitHub에 저장되었습니다.' });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : '알 수 없는 오류';
+    githubErrorMessage.value = `GitHub 저장 실패: ${msg}`;
+  } finally {
+    isSaving.value = false;
+  }
 }
 
 function onToggleAll(checked: boolean) {
