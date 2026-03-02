@@ -91,9 +91,9 @@
   white-space: nowrap;
 }
 
-/* ─── 전체 금액 (데스크탑 전용) ─────────────────── */
+/* ─── 전체 금액 ──────────────────────────────── */
 .summary-bar__total-block {
-  display: none;
+  display: flex;
   flex-direction: column;
   gap: 1px;
   flex-shrink: 0;
@@ -112,8 +112,11 @@
   color: rgba(255, 255, 255, 0.55);
 }
 
-@media (min-width: 600px) {
+@media (max-width: 400px) {
+  .summary-bar__total-value {
+    font-size: 12px;
+  }
   .summary-bar__total-block {
-    display: flex;
+    padding-right: 8px;
   }
 }

@@ -20,6 +20,11 @@
   letter-spacing: -0.3px;
 }
 
+.app-header__title--clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
 /* ─── 공통 카드 ─────────────────────────────────── */
 .card-base {
   background: #ffffff;
