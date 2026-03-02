@@ -276,6 +276,7 @@ async function onFetch() {
         status: 'success',
         errorMessage: null,
       });
+      checkedItems.set(currentCacheKey.value, githubData.checkedIds);
       hasFetched.value = true;
       return;
     }
@@ -313,7 +314,7 @@ async function onFetch() {
     if (gitHubState.isSet && gitHubState.token) {
       githubErrorMessage.value = '';
       try {
-        await saveOrdersToGitHub(yyyymm, products, cancelledIds, gitHubState.token);
+        await saveOrdersToGitHub(yyyymm, products, cancelledIds, new Set(), gitHubState.token);
       } catch (githubErr) {
         const msg = githubErr instanceof Error ? githubErr.message : '알 수 없는 오류';
         githubErrorMessage.value = `GitHub 저장 실패: ${msg}`;
@@ -361,7 +362,7 @@ async function onSave() {
   isSaving.value = true;
   githubErrorMessage.value = '';
   try {
-    await saveOrdersToGitHub(yyyymm, currentProducts.value, currentCancelledIds.value, gitHubState.token);
+    await saveOrdersToGitHub(yyyymm, currentProducts.value, currentCancelledIds.value, currentCheckedIds.value, gitHubState.token);
     $q.notify({ type: 'positive', message: 'GitHub에 저장되었습니다.' });
   } catch (err) {
     const msg = err instanceof Error ? err.message : '알 수 없는 오류';

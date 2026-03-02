@@ -20,7 +20,7 @@ import type { SavedOrderData } from 'src/types/github';
 export async function loadOrdersFromGitHub(
   yyyymm: string,
   token?: string | null,
-): Promise<{ products: ProductRow[]; cancelledIds: Set<string> } | null> {
+): Promise<{ products: ProductRow[]; cancelledIds: Set<string>; checkedIds: Set<string> } | null> {
   const path = `src/data/${yyyymm}.json`;
   const url = `${GITHUB_API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`;
 
@@ -41,6 +41,7 @@ export async function loadOrdersFromGitHub(
     return {
       products: data.products,
       cancelledIds: new Set(data.cancelledIds),
+      checkedIds: new Set(data.checkedIds ?? []),
     };
   } catch {
     return null;
@@ -65,6 +66,7 @@ export async function saveOrdersToGitHub(
   yyyymm: string,
   products: ProductRow[],
   cancelledIds: Set<string>,
+  checkedIds: Set<string>,
   token: string,
 ): Promise<void> {
   const path = `src/data/${yyyymm}.json`;
@@ -75,6 +77,7 @@ export async function saveOrdersToGitHub(
     savedAt: new Date().toISOString(),
     products,
     cancelledIds: Array.from(cancelledIds),
+    checkedIds: Array.from(checkedIds),
   };
 
   // 한글 포함 JSON을 base64로 인코딩 (UTF-8 보장)

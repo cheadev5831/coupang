@@ -13,4 +13,6 @@ export interface SavedOrderData {
   products: ProductRow[];
   /** 취소/반품 상품 ID 목록 (Set → Array 직렬화) */
   cancelledIds: string[];
+  /** 체크된 상품 ID 목록 (Set → Array 직렬화) */
+  checkedIds: string[];
 }
