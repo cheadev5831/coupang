@@ -1,6 +1,6 @@
 {
   "yyyymm": "202603",
-  "savedAt": "2026-03-02T07:54:30.326Z",
+  "savedAt": "2026-03-02T09:24:03.284Z",
   "products": [
     {
       "id": "28100174384001_0",
@@ -67,5 +67,8 @@
       "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/vendor_inventory/f6d3/17fe10c305b7879dc785feae23ea5c607cc4f305bbfd4dbbf43c65cfa6c0.jpg"
     }
   ],
-  "cancelledIds": []
+  "cancelledIds": [],
+  "checkedIds": [
+    "28100174384001_0"
+  ]
 }
