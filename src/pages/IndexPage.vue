@@ -303,14 +303,16 @@ async function onFetch() {
 
     hasFetched.value = true;
 
-    // GitHub 자동 저장
-    githubErrorMessage.value = '';
-    try {
-      await saveOrdersToGitHub(yyyymm, products, cancelledIds, new Set());
-      addToDataMonths(selectedMonth.year, selectedMonth.month);
-    } catch (githubErr) {
-      const msg = githubErr instanceof Error ? githubErr.message : '알 수 없는 오류';
-      githubErrorMessage.value = `GitHub 저장 실패: ${msg}`;
+    // GitHub 자동 저장 (데이터 없으면 업로드 생략)
+    if (products.length > 0) {
+      githubErrorMessage.value = '';
+      try {
+        await saveOrdersToGitHub(yyyymm, products, cancelledIds, new Set());
+        addToDataMonths(selectedMonth.year, selectedMonth.month);
+      } catch (githubErr) {
+        const msg = githubErr instanceof Error ? githubErr.message : '알 수 없는 오류';
+        githubErrorMessage.value = `GitHub 저장 실패: ${msg}`;
+      }
     }
   } catch (err) {
     const message = err instanceof Error ? err.message : '알 수 없는 오류';
