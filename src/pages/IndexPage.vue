@@ -8,14 +8,6 @@
       @clear="onCookieClear"
     />
 
-    <!-- GitHub 토큰 설정 패널 (PC 전용) -->
-    <GitHubPanel
-      v-if="isDesktop"
-      :git-hub-state="gitHubState"
-      @save="onGitHubSave"
-      @clear="onGitHubClear"
-    />
-
     <!-- 월 선택 + 조회 버튼 -->
     <MonthSelector
       :model-value="selectedMonth"
@@ -92,20 +84,16 @@ import { useQuasar } from 'quasar';
 import 'src/css/layout.css';
 
 import CookiePanel from 'components/CookiePanel.vue';
-import GitHubPanel from 'components/GitHubPanel.vue';
 import MonthSelector from 'components/MonthSelector.vue';
 import SummaryBar from 'components/SummaryBar.vue';
 import ProductList from 'components/ProductList.vue';
 
 import {
   COOKIE_STORAGE_KEY,
-  GITHUB_TOKEN_STORAGE_KEY,
   defaultCookieState,
-  defaultGitHubState,
   defaultSelectedMonth,
   defaultOrderSummary,
   type CookieState,
-  type GitHubState,
   type SelectedMonth,
   type ProductRow,
   type MonthCache,
@@ -129,7 +117,6 @@ const isDesktop = computed(() => $q.platform.is.desktop);
 // ─────────────────────────────────────────────
 
 const cookieState = reactive<CookieState>({ ...defaultCookieState });
-const gitHubState = reactive<GitHubState>({ ...defaultGitHubState });
 const selectedMonth = reactive<SelectedMonth>({ ...defaultSelectedMonth });
 const monthCacheMap = reactive<Map<MonthCacheKey, MonthCache>>(new Map());
 const checkedItems = reactive<CheckedItemsMap>(new Map());
@@ -192,15 +179,6 @@ const summary = computed<OrderSummary>(() => {
   }
 })();
 
-(function loadGitHubTokenFromStorage() {
-  const stored = localStorage.getItem(GITHUB_TOKEN_STORAGE_KEY);
-  if (stored) {
-    gitHubState.token = stored;
-    gitHubState.isSet = true;
-    gitHubState.savedAt = new Date().toLocaleDateString('ko-KR');
-  }
-})();
-
 // ─────────────────────────────────────────────
 // 쿠키 이벤트
 // ─────────────────────────────────────────────
@@ -220,20 +198,6 @@ function onCookieClear() {
   monthCacheMap.clear();
   checkedItems.clear();
   hasFetched.value = false;
-}
-
-function onGitHubSave(token: string) {
-  localStorage.setItem(GITHUB_TOKEN_STORAGE_KEY, token);
-  gitHubState.token = token;
-  gitHubState.isSet = true;
-  gitHubState.savedAt = new Date().toLocaleDateString('ko-KR');
-}
-
-function onGitHubClear() {
-  localStorage.removeItem(GITHUB_TOKEN_STORAGE_KEY);
-  gitHubState.token = null;
-  gitHubState.isSet = false;
-  gitHubState.savedAt = null;
 }
 
 // ─────────────────────────────────────────────
@@ -266,7 +230,7 @@ async function onFetch() {
 
   try {
     // 1. GitHub 우선 로드 시도
-    const githubData = await loadOrdersFromGitHub(yyyymm, gitHubState.token);
+    const githubData = await loadOrdersFromGitHub(yyyymm);
     if (githubData) {
       monthCacheMap.set(currentCacheKey.value, {
         key: currentCacheKey.value,
@@ -310,15 +274,13 @@ async function onFetch() {
 
     hasFetched.value = true;
 
-    // GitHub 저장 (토큰 설정 시에만)
-    if (gitHubState.isSet && gitHubState.token) {
-      githubErrorMessage.value = '';
-      try {
-        await saveOrdersToGitHub(yyyymm, products, cancelledIds, new Set(), gitHubState.token);
-      } catch (githubErr) {
-        const msg = githubErr instanceof Error ? githubErr.message : '알 수 없는 오류';
-        githubErrorMessage.value = `GitHub 저장 실패: ${msg}`;
-      }
+    // GitHub 자동 저장
+    githubErrorMessage.value = '';
+    try {
+      await saveOrdersToGitHub(yyyymm, products, cancelledIds, new Set());
+    } catch (githubErr) {
+      const msg = githubErr instanceof Error ? githubErr.message : '알 수 없는 오류';
+      githubErrorMessage.value = `GitHub 저장 실패: ${msg}`;
     }
   } catch (err) {
     const message = err instanceof Error ? err.message : '알 수 없는 오류';
@@ -354,16 +316,11 @@ function onToggle(id: string) {
 }
 
 async function onSave() {
-  const hasEnvToken = !!import.meta.env.VITE_GITHUB_TOKEN;
-  if (!hasEnvToken && (!gitHubState.isSet || !gitHubState.token)) {
-    $q.notify({ type: 'warning', message: 'GitHub 토큰을 먼저 설정해 주세요.' });
-    return;
-  }
   const yyyymm = `${selectedMonth.year}${String(selectedMonth.month).padStart(2, '0')}`;
   isSaving.value = true;
   githubErrorMessage.value = '';
   try {
-    await saveOrdersToGitHub(yyyymm, currentProducts.value, currentCancelledIds.value, currentCheckedIds.value, gitHubState.token);
+    await saveOrdersToGitHub(yyyymm, currentProducts.value, currentCancelledIds.value, currentCheckedIds.value);
     $q.notify({ type: 'positive', message: 'GitHub에 저장되었습니다.' });
   } catch (err) {
     const msg = err instanceof Error ? err.message : '알 수 없는 오류';
