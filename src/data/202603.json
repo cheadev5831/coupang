@@ -1,0 +1,72 @@
+{
+  "yyyymm": "202603",
+  "savedAt": "2026-03-02T12:25:25.865Z",
+  "products": [
+    {
+      "id": "28100174384001_0",
+      "orderId": "28100174384001",
+      "orderedAt": "2026.03.02",
+      "name": "홍승환 농부의 안성 배 3입",
+      "price": 16900,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/rs_quotation_api/lwhiojtj/39b117edd77442e4aa0e10b475f45702.jpg"
+    },
+    {
+      "id": "28100174384001_1",
+      "orderId": "28100174384001",
+      "orderedAt": "2026.03.02",
+      "name": "고당도 감귤",
+      "price": 17080,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/292769302160236-6339804d-e780-4cde-8040-d2f83fc2477f.jpg"
+    },
+    {
+      "id": "28100174384060_0",
+      "orderId": "28100174384060",
+      "orderedAt": "2026.03.02",
+      "name": "한끼통살 그릴드 닭가슴살 소이갈릭 (냉동)",
+      "price": 41940,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/a76cc2b7-b037-420b-aba6-71d69f31c5ce6187658499873095505.png"
+    },
+    {
+      "id": "28100174384060_1",
+      "orderId": "28100174384060",
+      "orderedAt": "2026.03.02",
+      "name": "한끼통살 그릴드 닭가슴살 저크바베큐 (냉동)",
+      "price": 21620,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/1025_amir_coupang_oct_80k/beec/e47ee212fde307dcbe87765d0693a1bb9f4dc4716db4de93e55784b9ea70.jpg"
+    },
+    {
+      "id": "28100174384047_0",
+      "orderId": "28100174384047",
+      "orderedAt": "2026.03.02",
+      "name": "햇반 건강한습관 라이스플랜 현미귀리 닭가슴살 갈릭 볶음밥 2인분 (냉동)",
+      "price": 15190,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/1557484804121605-7880d4f2-af66-4e96-8ee1-674cc6fdd631.jpg"
+    },
+    {
+      "id": "28100174384047_1",
+      "orderId": "28100174384047",
+      "orderedAt": "2026.03.02",
+      "name": "컷팅 골드 파인애플",
+      "price": 8980,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/1445192558908333-1a430ade-5cda-40d7-9179-90a16bf22ea0.jpg"
+    },
+    {
+      "id": "28100174384047_2",
+      "orderId": "28100174384047",
+      "orderedAt": "2026.03.02",
+      "name": "프리미엄 설향딸기",
+      "price": 14900,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/rs_quotation_api/hrbfvsuf/75377379adb84a3eb56586e2858c5b7b.jpg"
+    },
+    {
+      "id": "28100174099948_0",
+      "orderId": "28100174099948",
+      "orderedAt": "2026.03.01",
+      "name": "로랜텍 60W PD 파스텔 C to C 초고속충전 케이블",
+      "price": 6140,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/vendor_inventory/f6d3/17fe10c305b7879dc785feae23ea5c607cc4f305bbfd4dbbf43c65cfa6c0.jpg"
+    }
+  ],
+  "cancelledIds": [],
+  "checkedIds": []
+}
