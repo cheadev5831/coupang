@@ -55,7 +55,6 @@
         :rows="3"
         outlined
         dense
-        autogrow
         clearable
         bg-color="white"
       />

@@ -37,6 +37,12 @@
   padding: 0 14px 14px;
 }
 
+.cookie-panel__form .q-field__native {
+  max-height: 80px;
+  overflow-y: auto;
+  resize: none;
+}
+
 .cookie-panel__actions {
   display: flex;
   justify-content: flex-end;
