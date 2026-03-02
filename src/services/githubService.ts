@@ -2,7 +2,7 @@
  * GitHub Contents API를 통한 주문 데이터 파일 저장 서비스
  *
  * - 저장 경로: src/data/{yyyymm}.json (예: src/data/202603.json)
- * - 브랜치: feature/dev
+ * - 브랜치: main
  * - API: PUT https://api.github.com/repos/cheadev5831/coupang/contents/{path}
  */
 
@@ -50,7 +50,7 @@ export async function loadOrdersFromGitHub(
 const GITHUB_API_BASE = 'https://api.github.com';
 const REPO_OWNER = 'cheadev5831';
 const REPO_NAME = 'coupang';
-const BRANCH = 'feature/dev';
+const BRANCH = 'main';
 
 /**
  * 지정 연월의 주문 데이터를 GitHub 레포의 src/data/{yyyymm}.json 으로 저장.
