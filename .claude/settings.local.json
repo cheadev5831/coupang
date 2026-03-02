@@ -7,7 +7,19 @@
       "Bash(curl:*)",
       "Bash(npm run:*)",
       "Bash(node:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "WebFetch(domain:docs.google.com)",
+      "WebFetch(domain:doc-04-88-sheets.googleusercontent.com)",
+      "Bash(start:*)",
+      "Bash(npx vue-tsc:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(quasar build:*)",
+      "Bash(npx gh-pages:*)",
+      "Bash(gh run:*)",
+      "Bash(rm:*)",
+      "Bash(npx quasar:*)",
+      "Bash(netstat:*)"
     ]
-  }
+  },
+  "dangerouslySkipPermissions": true
 }
