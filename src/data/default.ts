@@ -17,6 +17,24 @@
 
 export const COOKIE_STORAGE_KEY = 'coupang_cookie' as const;
 
+// ─────────────────────────────────────────────
+// GitHub 설정
+// ─────────────────────────────────────────────
+
+export const GITHUB_TOKEN_STORAGE_KEY = 'github_token' as const;
+
+export interface GitHubState {
+  token: string | null;
+  isSet: boolean;
+  savedAt: string | null;
+}
+
+export const defaultGitHubState: GitHubState = {
+  token: null,
+  isSet: false,
+  savedAt: null,
+};
+
 export interface CookieState {
   value: string | null;
   isSet: boolean;

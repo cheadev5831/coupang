@@ -7,6 +7,13 @@
       @clear="onCookieClear"
     />
 
+    <!-- GitHub 토큰 설정 패널 -->
+    <GitHubPanel
+      :git-hub-state="gitHubState"
+      @save="onGitHubSave"
+      @clear="onGitHubClear"
+    />
+
     <!-- 월 선택 + 조회 버튼 -->
     <MonthSelector
       :model-value="selectedMonth"
@@ -14,6 +21,20 @@
       @update:model-value="Object.assign(selectedMonth, $event)"
       @fetch="onFetch"
     />
+
+    <!-- GitHub 저장 실패 배너 -->
+    <q-banner
+      v-if="githubErrorMessage"
+      dense
+      rounded
+      class="bg-orange-1 text-orange-9 section-gap"
+      icon="cloud_off"
+    >
+      {{ githubErrorMessage }}
+      <template #action>
+        <q-btn flat dense size="sm" label="닫기" @click="githubErrorMessage = ''" />
+      </template>
+    </q-banner>
 
     <!-- 쿠키 미설정 안내 배너 -->
     <q-banner
@@ -66,16 +87,20 @@ import { ref, reactive, computed } from 'vue';
 import 'src/css/layout.css';
 
 import CookiePanel from 'components/CookiePanel.vue';
+import GitHubPanel from 'components/GitHubPanel.vue';
 import MonthSelector from 'components/MonthSelector.vue';
 import SummaryBar from 'components/SummaryBar.vue';
 import ProductList from 'components/ProductList.vue';
 
 import {
   COOKIE_STORAGE_KEY,
+  GITHUB_TOKEN_STORAGE_KEY,
   defaultCookieState,
+  defaultGitHubState,
   defaultSelectedMonth,
   defaultOrderSummary,
   type CookieState,
+  type GitHubState,
   type SelectedMonth,
   type ProductRow,
   type MonthCache,
@@ -85,17 +110,20 @@ import {
 } from 'src/data/default';
 
 import { fetchOrders } from 'src/services/orderService';
+import { saveOrdersToGitHub, loadOrdersFromGitHub } from 'src/services/githubService';
 
 // ─────────────────────────────────────────────
 // 상태
 // ─────────────────────────────────────────────
 
 const cookieState = reactive<CookieState>({ ...defaultCookieState });
+const gitHubState = reactive<GitHubState>({ ...defaultGitHubState });
 const selectedMonth = reactive<SelectedMonth>({ ...defaultSelectedMonth });
 const monthCacheMap = reactive<Map<MonthCacheKey, MonthCache>>(new Map());
 const checkedItems = reactive<CheckedItemsMap>(new Map());
 const isFetching = ref(false);
 const errorMessage = ref('');
+const githubErrorMessage = ref('');
 const showCookieWarning = ref(false);
 const hasFetched = ref(false);
 
@@ -151,6 +179,15 @@ const summary = computed<OrderSummary>(() => {
   }
 })();
 
+(function loadGitHubTokenFromStorage() {
+  const stored = localStorage.getItem(GITHUB_TOKEN_STORAGE_KEY);
+  if (stored) {
+    gitHubState.token = stored;
+    gitHubState.isSet = true;
+    gitHubState.savedAt = new Date().toLocaleDateString('ko-KR');
+  }
+})();
+
 // ─────────────────────────────────────────────
 // 쿠키 이벤트
 // ─────────────────────────────────────────────
@@ -172,33 +209,62 @@ function onCookieClear() {
   hasFetched.value = false;
 }
 
+function onGitHubSave(token: string) {
+  localStorage.setItem(GITHUB_TOKEN_STORAGE_KEY, token);
+  gitHubState.token = token;
+  gitHubState.isSet = true;
+  gitHubState.savedAt = new Date().toLocaleDateString('ko-KR');
+}
+
+function onGitHubClear() {
+  localStorage.removeItem(GITHUB_TOKEN_STORAGE_KEY);
+  gitHubState.token = null;
+  gitHubState.isSet = false;
+  gitHubState.savedAt = null;
+}
+
 // ─────────────────────────────────────────────
 // 조회 버튼
 // ─────────────────────────────────────────────
 
 async function onFetch() {
-  if (!cookieState.isSet || !cookieState.value) {
-    showCookieWarning.value = true;
-    return;
-  }
-
   showCookieWarning.value = false;
   errorMessage.value = '';
 
-  // 캐시 히트
-  const cached = monthCacheMap.get(currentCacheKey.value);
-  if (cached && cached.status === 'success') {
+  // 세션 캐시 히트
+  if (monthCacheMap.get(currentCacheKey.value)?.status === 'success') {
     hasFetched.value = true;
     return;
   }
 
-  // 체크 상태 초기화 (새 월 조회 시)
   checkedItems.set(currentCacheKey.value, new Set());
-
   isFetching.value = true;
   hasFetched.value = false;
 
+  const yyyymm = `${selectedMonth.year}${String(selectedMonth.month).padStart(2, '0')}`;
+
   try {
+    // 1. GitHub 우선 로드 시도
+    const githubData = await loadOrdersFromGitHub(yyyymm, gitHubState.token);
+    if (githubData) {
+      monthCacheMap.set(currentCacheKey.value, {
+        key: currentCacheKey.value,
+        products: githubData.products,
+        cancelledIds: githubData.cancelledIds,
+        cachedAt: new Date().toISOString(),
+        status: 'success',
+        errorMessage: null,
+      });
+      hasFetched.value = true;
+      return;
+    }
+
+    // 2. GitHub에 없음 → 쿠팡 API fallback
+    if (!cookieState.isSet || !cookieState.value) {
+      showCookieWarning.value = true;
+      return;
+    }
+
     const { products, cancelledIds } = await fetchOrders(
       selectedMonth.year,
       selectedMonth.month,
@@ -215,6 +281,17 @@ async function onFetch() {
     });
 
     hasFetched.value = true;
+
+    // GitHub 저장 (토큰 설정 시에만)
+    if (gitHubState.isSet && gitHubState.token) {
+      githubErrorMessage.value = '';
+      try {
+        await saveOrdersToGitHub(yyyymm, products, cancelledIds, gitHubState.token);
+      } catch (githubErr) {
+        const msg = githubErr instanceof Error ? githubErr.message : '알 수 없는 오류';
+        githubErrorMessage.value = `GitHub 저장 실패: ${msg}`;
+      }
+    }
   } catch (err) {
     const message = err instanceof Error ? err.message : '알 수 없는 오류';
     errorMessage.value = `조회 중 오류가 발생했습니다. 쿠키를 확인해 주세요. (${message})`;
