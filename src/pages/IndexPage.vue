@@ -1,14 +1,16 @@
 <template>
   <q-page class="app-page">
-    <!-- 쿠키 설정 패널 -->
+    <!-- 쿠키 설정 패널 (PC 전용) -->
     <CookiePanel
+      v-if="isDesktop"
       :cookie-state="cookieState"
       @save="onCookieSave"
       @clear="onCookieClear"
     />
 
-    <!-- GitHub 토큰 설정 패널 -->
+    <!-- GitHub 토큰 설정 패널 (PC 전용) -->
     <GitHubPanel
+      v-if="isDesktop"
       :git-hub-state="gitHubState"
       @save="onGitHubSave"
       @clear="onGitHubClear"
@@ -36,9 +38,9 @@
       </template>
     </q-banner>
 
-    <!-- 쿠키 미설정 안내 배너 -->
+    <!-- 쿠키 미설정 안내 배너 (PC 전용) -->
     <q-banner
-      v-if="showCookieWarning"
+      v-if="isDesktop && showCookieWarning"
       dense
       rounded
       class="bg-orange-1 text-orange-9 section-gap"
@@ -84,6 +86,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue';
+import { useQuasar } from 'quasar';
 import 'src/css/layout.css';
 
 import CookiePanel from 'components/CookiePanel.vue';
@@ -111,6 +114,13 @@ import {
 
 import { fetchOrders } from 'src/services/orderService';
 import { saveOrdersToGitHub, loadOrdersFromGitHub } from 'src/services/githubService';
+
+// ─────────────────────────────────────────────
+// 플랫폼
+// ─────────────────────────────────────────────
+
+const $q = useQuasar();
+const isDesktop = computed(() => $q.platform.is.desktop);
 
 // ─────────────────────────────────────────────
 // 상태
@@ -259,7 +269,13 @@ async function onFetch() {
       return;
     }
 
-    // 2. GitHub에 없음 → 쿠팡 API fallback
+    // 2. GitHub에 없음 → 모바일은 여기서 종료 (JSON 뷰어 전용)
+    if (!isDesktop.value) {
+      hasFetched.value = true;
+      return;
+    }
+
+    // 3. PC: 쿠팡 API fallback
     if (!cookieState.isSet || !cookieState.value) {
       showCookieWarning.value = true;
       return;
