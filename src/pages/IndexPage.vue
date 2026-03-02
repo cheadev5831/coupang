@@ -354,7 +354,8 @@ function onToggle(id: string) {
 }
 
 async function onSave() {
-  if (!gitHubState.isSet || !gitHubState.token) {
+  const hasEnvToken = !!import.meta.env.VITE_GITHUB_TOKEN;
+  if (!hasEnvToken && (!gitHubState.isSet || !gitHubState.token)) {
     $q.notify({ type: 'warning', message: 'GitHub 토큰을 먼저 설정해 주세요.' });
     return;
   }

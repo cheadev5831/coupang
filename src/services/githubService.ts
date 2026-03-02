@@ -25,8 +25,9 @@ export async function loadOrdersFromGitHub(
   const url = `${GITHUB_API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`;
 
   try {
+    const resolved = resolveToken(token);
     const headers: Record<string, string> = {};
-    if (token) headers.Authorization = `Bearer ${token}`;
+    if (resolved) headers.Authorization = `Bearer ${resolved}`;
 
     const response = await axios.get<{ content: string; encoding: string }>(url, {
       params: { ref: BRANCH },
@@ -53,6 +54,14 @@ const REPO_OWNER = 'cheadev5831';
 const REPO_NAME = 'coupang';
 const BRANCH = 'main';
 
+/** 빌드 시 주입된 환경변수 토큰 (없으면 빈 문자열) */
+const ENV_TOKEN: string = import.meta.env.VITE_GITHUB_TOKEN ?? '';
+
+/** 환경변수 토큰을 우선하고, 없으면 전달받은 토큰을 사용 */
+function resolveToken(token?: string | null): string {
+  return ENV_TOKEN || token || '';
+}
+
 /**
  * 지정 연월의 주문 데이터를 GitHub 레포의 src/data/{yyyymm}.json 으로 저장.
  * 파일이 이미 존재하면 덮어씀 (SHA 기반 업데이트).
@@ -67,8 +76,10 @@ export async function saveOrdersToGitHub(
   products: ProductRow[],
   cancelledIds: Set<string>,
   checkedIds: Set<string>,
-  token: string,
+  token?: string | null,
 ): Promise<void> {
+  const resolvedToken = resolveToken(token);
+  if (!resolvedToken) throw new Error('GitHub 토큰이 없습니다.');
   const path = `src/data/${yyyymm}.json`;
   const url = `${GITHUB_API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`;
 
@@ -89,7 +100,7 @@ export async function saveOrdersToGitHub(
   try {
     const existing = await axios.get<{ sha: string }>(url, {
       params: { ref: BRANCH },
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${resolvedToken}` },
     });
     sha = existing.data.sha;
   } catch {
@@ -106,7 +117,7 @@ export async function saveOrdersToGitHub(
     },
     {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${resolvedToken}`,
         'Content-Type': 'application/json',
       },
     },
