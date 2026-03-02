@@ -17,6 +17,15 @@ export interface CoupangApiProduct {
   quantity: number;
   /** 상품 이미지 경로 URL */
   imagePath: string;
+  /** 벤더 아이템 ID (배송비 묶음 매핑에 사용) */
+  vendorItemId: number;
+}
+
+export interface CoupangBundleReceipt {
+  /** 묶음 배송비 */
+  shippingFee?: number;
+  /** 묶음에 포함된 vendorItemId 목록 */
+  vendorItemIds?: number[];
 }
 
 export interface CoupangDeliveryGroup {
@@ -35,6 +44,8 @@ export interface CoupangOrder {
   /** 기본 배송비 */
   baseDeliveryPrice: number;
   deliveryGroupList: CoupangDeliveryGroup[];
+  /** 묶음 배송 영수증 목록 */
+  bundleReceiptList?: CoupangBundleReceipt[];
 }
 
 export interface CoupangOrderListResponse {

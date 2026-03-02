@@ -2,6 +2,7 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file
 
 import { defineConfig } from '#q-app/wrappers';
+import { loadEnv } from 'vite';
 
 export default defineConfig((/* ctx */) => {
   return {
@@ -59,7 +60,15 @@ export default defineConfig((/* ctx */) => {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      extendViteConf(viteConf) {
+        const prodEnv = loadEnv('production', process.cwd(), '');
+        viteConf.define = {
+          ...viteConf.define,
+          'import.meta.env.VITE_GITHUB_TOKEN': JSON.stringify(
+            process.env.VITE_GITHUB_TOKEN || prodEnv.VITE_GITHUB_TOKEN || '',
+          ),
+        };
+      },
       // viteVuePluginOptions: {},
 
       vitePlugins: [

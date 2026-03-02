@@ -36,23 +36,51 @@ function parseOrderProducts(
   const cancelledIds: string[] = [];
   let productIdx = 0;
 
-  for (const group of order.deliveryGroupList) {
+  // bundle -> shippingFee 매핑
+  const bundleShippingMap = new Map<number, number>();
+  const bundleUsed = new Set<number>();
+
+  for (const bundle of order.bundleReceiptList ?? []) {
+    const fee = bundle.shippingFee ?? 0;
+    for (const vid of bundle.vendorItemIds ?? []) {
+      bundleShippingMap.set(vid, fee);
+    }
+  }
+
+  for (const group of order.deliveryGroupList ?? []) {
     const status = group.groupStatus?.status ?? '';
     const isCancelled = status.includes('RETURN') || status.includes('CANCEL');
+    if (isCancelled) continue;
 
-    for (const p of group.productList) {
+    for (const p of group.productList ?? []) {
       const id = `${order.orderId}_${productIdx++}`;
+
+      let price = p.discountedUnitPrice * p.quantity;
+
+      const shippingFee = bundleShippingMap.get(p.vendorItemId) ?? 0;
+
+      if (shippingFee > 0 && !bundleUsed.has(p.vendorItemId)) {
+        price += shippingFee;
+
+        // 같은 bundle에 속한 vendorItemIds 전부 사용 처리
+        const bundle = order.bundleReceiptList?.find((b) =>
+          b.vendorItemIds?.includes(p.vendorItemId),
+        );
+        if (bundle) {
+          for (const vid of bundle.vendorItemIds ?? []) {
+            bundleUsed.add(vid);
+          }
+        }
+      }
+
       rows.push({
         id,
         orderId: String(order.orderId),
         orderedAt: displayDate,
         name: p.productName,
-        // precode.js 기준: 단가 × 수량 + 기본배송비
-        price: p.discountedUnitPrice * p.quantity + order.baseDeliveryPrice,
+        price,
         imageUrl: p.imagePath || null,
       });
-
-      if (isCancelled) cancelledIds.push(id);
     }
   }
 
