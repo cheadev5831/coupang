@@ -63,6 +63,35 @@ function resolveToken(token?: string | null): string {
 }
 
 /**
+ * GitHub 레포 src/data/ 디렉토리의 파일 목록을 조회해 데이터가 있는 연월 목록 반환.
+ * 조회 실패 시 빈 배열 반환.
+ */
+export async function listDataMonths(
+  token?: string | null,
+): Promise<{ year: number; month: number }[]> {
+  const url = `${GITHUB_API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/contents/src/data`;
+  try {
+    const resolved = resolveToken(token);
+    const headers: Record<string, string> = {};
+    if (resolved) headers.Authorization = `Bearer ${resolved}`;
+
+    const response = await axios.get<{ name: string; type: string }[]>(url, {
+      params: { ref: BRANCH },
+      headers,
+    });
+
+    return response.data
+      .filter((f) => f.type === 'file' && /^\d{6}\.json$/.test(f.name))
+      .map((f) => ({
+        year: parseInt(f.name.slice(0, 4), 10),
+        month: parseInt(f.name.slice(4, 6), 10),
+      }));
+  } catch {
+    return [];
+  }
+}
+
+/**
  * 지정 연월의 주문 데이터를 GitHub 레포의 src/data/{yyyymm}.json 으로 저장.
  * 파일이 이미 존재하면 덮어씀 (SHA 기반 업데이트).
  *

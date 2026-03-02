@@ -47,3 +47,25 @@
 .month-selector__month-btn--active {
   box-shadow: 0 2px 8px rgba(230, 36, 24, 0.3) !important;
 }
+
+/* ─── 데이터 있는 월 표시 ───────────────────────── */
+.month-selector__month-btn--has-data {
+  position: relative;
+}
+
+.month-selector__month-btn--has-data::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #e62418;
+  pointer-events: none;
+}
+
+.month-selector__month-btn--active.month-selector__month-btn--has-data::after {
+  background-color: rgba(255, 255, 255, 0.85);
+}

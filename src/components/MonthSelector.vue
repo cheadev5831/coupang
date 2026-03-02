@@ -42,6 +42,7 @@
         :class="[
           'month-selector__month-btn',
           selectedMonth === m ? 'month-selector__month-btn--active' : '',
+          props.monthsWithData?.includes(m) ? 'month-selector__month-btn--has-data' : '',
         ]"
         @click="selectMonth(m)"
       />
@@ -57,6 +58,7 @@ import type { SelectedMonth } from 'src/data/default';
 const props = defineProps<{
   modelValue: SelectedMonth;
   loading?: boolean;
+  monthsWithData?: number[];
 }>();
 
 const emit = defineEmits<{

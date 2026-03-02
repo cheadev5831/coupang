@@ -12,6 +12,7 @@
     <MonthSelector
       :model-value="selectedMonth"
       :loading="isFetching"
+      :months-with-data="monthsWithData"
       @update:model-value="Object.assign(selectedMonth, $event)"
       @fetch="onFetch"
     />
@@ -103,7 +104,7 @@ import {
 } from 'src/data/default';
 
 import { fetchOrders } from 'src/services/orderService';
-import { saveOrdersToGitHub, loadOrdersFromGitHub } from 'src/services/githubService';
+import { saveOrdersToGitHub, loadOrdersFromGitHub, listDataMonths } from 'src/services/githubService';
 
 // ─────────────────────────────────────────────
 // 플랫폼
@@ -126,6 +127,25 @@ const errorMessage = ref('');
 const githubErrorMessage = ref('');
 const showCookieWarning = ref(false);
 const hasFetched = ref(false);
+
+// ─────────────────────────────────────────────
+// GitHub 기반 has-data 월 목록
+// ─────────────────────────────────────────────
+
+const monthsWithDataByYear = ref<Map<number, number[]>>(new Map());
+
+const monthsWithData = computed<number[]>(
+  () => monthsWithDataByYear.value.get(selectedMonth.year) ?? [],
+);
+
+function addToDataMonths(year: number, month: number) {
+  const map = new Map(monthsWithDataByYear.value);
+  const months = map.get(year) ?? [];
+  if (!months.includes(month)) {
+    map.set(year, [...months, month]);
+    monthsWithDataByYear.value = map;
+  }
+}
 
 // ─────────────────────────────────────────────
 // 캐시 키
@@ -206,6 +226,14 @@ function onCookieClear() {
 
 onMounted(() => {
   void onFetch();
+  void listDataMonths().then((entries) => {
+    const map = new Map<number, number[]>();
+    for (const { year, month } of entries) {
+      if (!map.has(year)) map.set(year, []);
+      map.get(year)!.push(month);
+    }
+    monthsWithDataByYear.value = map;
+  });
 });
 
 // ─────────────────────────────────────────────
@@ -241,6 +269,7 @@ async function onFetch() {
         errorMessage: null,
       });
       checkedItems.set(currentCacheKey.value, githubData.checkedIds);
+      addToDataMonths(selectedMonth.year, selectedMonth.month);
       hasFetched.value = true;
       return;
     }
@@ -278,6 +307,7 @@ async function onFetch() {
     githubErrorMessage.value = '';
     try {
       await saveOrdersToGitHub(yyyymm, products, cancelledIds, new Set());
+      addToDataMonths(selectedMonth.year, selectedMonth.month);
     } catch (githubErr) {
       const msg = githubErr instanceof Error ? githubErr.message : '알 수 없는 오류';
       githubErrorMessage.value = `GitHub 저장 실패: ${msg}`;
@@ -321,6 +351,7 @@ async function onSave() {
   githubErrorMessage.value = '';
   try {
     await saveOrdersToGitHub(yyyymm, currentProducts.value, currentCancelledIds.value, currentCheckedIds.value);
+    addToDataMonths(selectedMonth.year, selectedMonth.month);
     $q.notify({ type: 'positive', message: 'GitHub에 저장되었습니다.' });
   } catch (err) {
     const msg = err instanceof Error ? err.message : '알 수 없는 오류';
