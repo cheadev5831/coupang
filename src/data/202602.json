@@ -1,0 +1,488 @@
+{
+  "yyyymm": "202602",
+  "savedAt": "2026-03-02T12:36:33.089Z",
+  "products": [
+    {
+      "id": "28100173826621_0",
+      "orderId": "28100173826621",
+      "orderedAt": "2026.02.27",
+      "name": "라엘 순면커버 입는 오버나이트",
+      "price": 10480,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/3034805672084162-6309f832-8744-46d2-ad79-96f60db04887.png"
+    },
+    {
+      "id": "28100173563918_0",
+      "orderId": "28100173563918",
+      "orderedAt": "2026.02.26",
+      "name": "영길팜 당도선별 샤인머스캣",
+      "price": 4980,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/rs_quotation_api/wakvmj7s/d13341cd595f4ce9a19ca5b58465bb5a.jpg"
+    },
+    {
+      "id": "28100173563918_1",
+      "orderId": "28100173563918",
+      "orderedAt": "2026.02.26",
+      "name": "설향 딸기 대과",
+      "price": 6170,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/63269731477129-2102c7f3-df7d-4026-a5d1-59bbdfc6bd78.jpg"
+    },
+    {
+      "id": "28100173563918_2",
+      "orderId": "28100173563918",
+      "orderedAt": "2026.02.26",
+      "name": "햇반 건강한습관 라이스플랜 현미귀리 닭가슴살 김치 볶음밥 2개입 (냉동)",
+      "price": 6500,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/1556650417227295-22eed425-12bd-43ca-aaf4-54ce773d471c.jpg"
+    },
+    {
+      "id": "28100173563918_3",
+      "orderId": "28100173563918",
+      "orderedAt": "2026.02.26",
+      "name": "풀무원 참치 & 야채 볶음밥 2개입 (냉동)",
+      "price": 4980,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/rs_quotation_api/nroexml8/ddcdeccdcb4b48538310081a5832d46c.jpg"
+    },
+    {
+      "id": "28100173382229_0",
+      "orderId": "28100173382229",
+      "orderedAt": "2026.02.25",
+      "name": "슈가펀 여성용 노브 크롭 뒷트임 포인트 반팔 티셔츠",
+      "price": 15400,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/2025/04/21/16/5/0e45f11a-009e-4679-a005-ef7d7b4cbd7e.jpg"
+    },
+    {
+      "id": "28100173117030_0",
+      "orderId": "28100173117030",
+      "orderedAt": "2026.02.24",
+      "name": "곰곰 고당도 12.5brix 감귤",
+      "price": 11850,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/2711457921615327-b1167a4f-0918-4c15-906b-484f7d918aee.jpg"
+    },
+    {
+      "id": "28100173117030_1",
+      "orderId": "28100173117030",
+      "orderedAt": "2026.02.24",
+      "name": "가농 단백이 오리지널 20개입",
+      "price": 19380,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/2474897068467795-065abe24-0781-493d-9dbc-bbe254e5ca06.jpg"
+    },
+    {
+      "id": "28100173117030_2",
+      "orderId": "28100173117030",
+      "orderedAt": "2026.02.24",
+      "name": "설향 딸기 대과",
+      "price": 6610,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/63269731477129-2102c7f3-df7d-4026-a5d1-59bbdfc6bd78.jpg"
+    },
+    {
+      "id": "28100173117030_3",
+      "orderId": "28100173117030",
+      "orderedAt": "2026.02.24",
+      "name": "디오디너리 나이아신아마이드 10% + 징크 1% 에센스",
+      "price": 15400,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/1439215706246681-df6bd2fb-b9a8-43c5-af8e-aca2cb5c73a8.jpg"
+    },
+    {
+      "id": "28100172753912_0",
+      "orderId": "28100172753912",
+      "orderedAt": "2026.02.22",
+      "name": "오트몬드 프로틴 초코맛",
+      "price": 39120,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/2025/07/28/12/8/4202b8b0-5633-4cc9-baaf-d559d3523a37.jpg"
+    },
+    {
+      "id": "28100172753912_1",
+      "orderId": "28100172753912",
+      "orderedAt": "2026.02.22",
+      "name": "오트몬드 프로틴 초코맛",
+      "price": 39120,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/2025/07/28/12/8/4202b8b0-5633-4cc9-baaf-d559d3523a37.jpg"
+    },
+    {
+      "id": "28100172753912_2",
+      "orderId": "28100172753912",
+      "orderedAt": "2026.02.22",
+      "name": "블루다이아몬드 아몬드 브리즈 언스위트",
+      "price": 11370,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/vendor_inventory/d8c8/c098847a430a945bcfcb8f7fab2d4e32872fdfe35bb25a384ab1936b07b9.jpg"
+    },
+    {
+      "id": "28100172753912_3",
+      "orderId": "28100172753912",
+      "orderedAt": "2026.02.22",
+      "name": "스포츠리서치 크레아틴 모노하이드레이트 무맛",
+      "price": 23630,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/vendor_inventory/f356/94bc6790c3cb739f76cda505044b9054670ae33c2aac18124d13f8a594a6.jpg"
+    },
+    {
+      "id": "28100172453316_0",
+      "orderId": "28100172453316",
+      "orderedAt": "2026.02.21",
+      "name": "멜린앤게츠 핸드 바디 워시 유칼립투스",
+      "price": 12250,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/1394744293525108-7359495f-68a4-422e-9c19-89f7f0310ae4.jpg"
+    },
+    {
+      "id": "28100172447205_0",
+      "orderId": "28100172447205",
+      "orderedAt": "2026.02.21",
+      "name": "곰곰 곤약 닭가슴살 잡채볶음밥 (냉동)",
+      "price": 4769,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/b70bff21-6323-4378-b73b-be57805b20b31276875166461874770.png"
+    },
+    {
+      "id": "28100172447205_1",
+      "orderId": "28100172447205",
+      "orderedAt": "2026.02.21",
+      "name": "햇반 닭갈비 볶음밥 2인분 (냉동)",
+      "price": 7781,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/219486930949751-e0aecdd8-faa2-4155-ba85-a5bebc12a1ab.jpg"
+    },
+    {
+      "id": "28100172447205_2",
+      "orderId": "28100172447205",
+      "orderedAt": "2026.02.21",
+      "name": "풀무원 탱글소시지 철판볶음밥 2인",
+      "price": 3652,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/3318896201667651-2adbacd4-284b-4168-9803-77a5e37f2b7e.jpg"
+    },
+    {
+      "id": "28100172447205_3",
+      "orderId": "28100172447205",
+      "orderedAt": "2026.02.21",
+      "name": "설향 딸기 대과",
+      "price": 5878,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/63269731477129-2102c7f3-df7d-4026-a5d1-59bbdfc6bd78.jpg"
+    },
+    {
+      "id": "28100171874558_0",
+      "orderId": "28100171874558",
+      "orderedAt": "2026.02.18",
+      "name": "리콜라 스위스 오리지널 허브 캔디",
+      "price": 9780,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/232869358474286-a74784d5-07a9-48c7-bcc6-280dd59762f2.jpg"
+    },
+    {
+      "id": "28100171557163_0",
+      "orderId": "28100171557163",
+      "orderedAt": "2026.02.16",
+      "name": "오랩요리란 계란대신 요리란 난백",
+      "price": 10200,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/rs_quotation_api/emvvf7ls/c0910dde156d480f917bf93b522af1cc.jpg"
+    },
+    {
+      "id": "28100171557163_1",
+      "orderId": "28100171557163",
+      "orderedAt": "2026.02.16",
+      "name": "곰곰 무항생제 신선한 대란",
+      "price": 5390,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/35222452389004-828df71e-709f-4af8-ab1f-75d1eeb84feb.jpg"
+    },
+    {
+      "id": "28100171450014_0",
+      "orderId": "28100171450014",
+      "orderedAt": "2026.02.15",
+      "name": "한끼통살 그릴드 닭가슴살 소이갈릭 (냉동)",
+      "price": 44000,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/a76cc2b7-b037-420b-aba6-71d69f31c5ce6187658499873095505.png"
+    },
+    {
+      "id": "28100171450014_1",
+      "orderId": "28100171450014",
+      "orderedAt": "2026.02.15",
+      "name": "한끼통살 그릴드 닭가슴살 저크바베큐 (냉동)",
+      "price": 23900,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/1025_amir_coupang_oct_80k/beec/e47ee212fde307dcbe87765d0693a1bb9f4dc4716db4de93e55784b9ea70.jpg"
+    },
+    {
+      "id": "28100171402828_0",
+      "orderId": "28100171402828",
+      "orderedAt": "2026.02.15",
+      "name": "곰곰 갈비맛 치킨볶음밥 (냉동)",
+      "price": 5970,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/9451e0fb-9491-46e5-bf62-863a577bdf656977662091463691185.png"
+    },
+    {
+      "id": "28100171402828_1",
+      "orderId": "28100171402828",
+      "orderedAt": "2026.02.15",
+      "name": "곰곰 닭갈비볶음밥 (냉동)",
+      "price": 4490,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/2882415908492578-5bf4c208-a51e-4829-8b44-787a323e1947.png"
+    },
+    {
+      "id": "28100171402828_2",
+      "orderId": "28100171402828",
+      "orderedAt": "2026.02.15",
+      "name": "하동품애 GAP 한단 설향 딸기 대과",
+      "price": 10990,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/7639854785569212-9b4cb25c-69ca-449d-8cb0-55521b31d0f0.jpg"
+    },
+    {
+      "id": "28100171402828_3",
+      "orderId": "28100171402828",
+      "orderedAt": "2026.02.15",
+      "name": "귤탐 당도선별 12Brix 하우스감귤",
+      "price": 25580,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/81003109202492-f2db7cdc-96f4-4c09-b625-ca0cf4e23a6f.jpg"
+    },
+    {
+      "id": "28100171402828_4",
+      "orderId": "28100171402828",
+      "orderedAt": "2026.02.15",
+      "name": "프레쉬팜 골드 파인애플 스틱",
+      "price": 8980,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/10222648200606-33d8516b-14d2-4e24-aab4-f2749f5fa12b.jpg"
+    },
+    {
+      "id": "28100171005762_0",
+      "orderId": "28100171005762",
+      "orderedAt": "2026.02.12",
+      "name": "탐사 펑 배수구 세정제",
+      "price": 5990,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/1025_amir_coupang_oct_80k/5a83/7ae9f138d295dfee42452388cee4486089218a44a3a75e565a4b5f855290.jpg"
+    },
+    {
+      "id": "28100170844563_0",
+      "orderId": "28100170844563",
+      "orderedAt": "2026.02.12",
+      "name": "락앤락 메트로 세라믹 머그 LHC4282C",
+      "price": 24350,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/2025/09/22/14/2/a42c9d49-9508-43ee-b924-524f29283b2b.png"
+    },
+    {
+      "id": "28100170777634_0",
+      "orderId": "28100170777634",
+      "orderedAt": "2026.02.11",
+      "name": "매일레몬 리얼 유기농 레몬즙",
+      "price": 4300,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/2302007588259284-b370c134-ec81-4464-81d3-bfaa7b64383e.jpg"
+    },
+    {
+      "id": "28100170474610_0",
+      "orderId": "28100170474610",
+      "orderedAt": "2026.02.10",
+      "name": "곰곰 한끼 닭가슴살 김치볶음밥 (냉동)",
+      "price": 5640,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/5b3043fa-9d75-439c-a749-f13f0c3d90201398775717515646240.png"
+    },
+    {
+      "id": "28100170474610_1",
+      "orderId": "28100170474610",
+      "orderedAt": "2026.02.10",
+      "name": "청정원 호밍스 대게와 랍스터 볶음밥 2인분 (냉동)",
+      "price": 6360,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/rs_quotation_api/7hiojlri/f08d2fe59d634219875e7bc7e0b5d60d.jpg"
+    },
+    {
+      "id": "28100170474610_2",
+      "orderId": "28100170474610",
+      "orderedAt": "2026.02.10",
+      "name": "가농 단백이 오리지널 20개입",
+      "price": 15200,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/2474897068467795-065abe24-0781-493d-9dbc-bbe254e5ca06.jpg"
+    },
+    {
+      "id": "28100170474467_0",
+      "orderId": "28100170474467",
+      "orderedAt": "2026.02.10",
+      "name": "아몬드브리즈 언스위트",
+      "price": 16120,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/33739762071374-f0ceb817-af77-422f-999a-d48753efd5ae.png"
+    },
+    {
+      "id": "28100170329030_0",
+      "orderId": "28100170329030",
+      "orderedAt": "2026.02.09",
+      "name": "린트 엑설런스 85% 코코아 다크 초콜릿",
+      "price": 6260,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/91368617048286-1ac78d0b-b300-460a-b56b-04e828615e0e.jpg"
+    },
+    {
+      "id": "28100170329030_1",
+      "orderId": "28100170329030",
+      "orderedAt": "2026.02.09",
+      "name": "린트 엑설런스 100% 다크 초콜릿",
+      "price": 6650,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/2351860854210876-81425ac8-0888-4fc9-8e02-a4689c93e186.jpg"
+    },
+    {
+      "id": "28100170329030_2",
+      "orderId": "28100170329030",
+      "orderedAt": "2026.02.09",
+      "name": "린트엑셀런스 다크 90% 초콜릿",
+      "price": 6260,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/124701015130549-19e64142-3a29-44e3-9adf-bd3348fcdb5f.jpg"
+    },
+    {
+      "id": "28100170260978_0",
+      "orderId": "28100170260978",
+      "orderedAt": "2026.02.09",
+      "name": "사조참치 살코기 안심따개",
+      "price": 6660,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/1025_amir_coupang_oct_80k/de79/67c468a97b1f6239bd04b2d228a6081938a4e7a0710b745e9929b032550c.jpg"
+    },
+    {
+      "id": "28100170260978_1",
+      "orderId": "28100170260978",
+      "orderedAt": "2026.02.09",
+      "name": "스팀 고구마 다이스 (냉동)",
+      "price": 10370,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/rs_quotation_api/sut4bvlf/810d0960b47143df871cdeb562a0a5d0.jpg"
+    },
+    {
+      "id": "28100170260978_2",
+      "orderId": "28100170260978",
+      "orderedAt": "2026.02.09",
+      "name": "건강하닭 할라피뇨 앤 치즈 소시지",
+      "price": 11200,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/227908617776168-4c8e2d05-22a7-42c8-b70f-f3d5bd6be285.jpg"
+    },
+    {
+      "id": "28100170260978_3",
+      "orderId": "28100170260978",
+      "orderedAt": "2026.02.09",
+      "name": "사조참치 고추참치 안심따개",
+      "price": 5970,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/1025_amir_coupang_oct_80k/17cc/cc473a49b346a3585d9feacf94f2f7a4a05d590bd8220b402dc2ed33cf38.jpg"
+    },
+    {
+      "id": "28100170260978_4",
+      "orderId": "28100170260978",
+      "orderedAt": "2026.02.09",
+      "name": "건강하닭 오리지날 소시지",
+      "price": 8800,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/1025_amir_coupang_oct_80k/5744/04064091031566d9c290a1e8b08a7df60f04cb3754746c9b1d170ec4167c.jpg"
+    },
+    {
+      "id": "28100169296049_0",
+      "orderId": "28100169296049",
+      "orderedAt": "2026.02.04",
+      "name": "한끼통살 그릴드 닭가슴살 소이갈릭 (냉동)",
+      "price": 43240,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/a76cc2b7-b037-420b-aba6-71d69f31c5ce6187658499873095505.png"
+    },
+    {
+      "id": "28100169296049_1",
+      "orderId": "28100169296049",
+      "orderedAt": "2026.02.04",
+      "name": "곰곰 새우 볶음밥",
+      "price": 4680,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/1025_amir_coupang_oct_80k/e014/fcd71c0152f66cfd70a2e52f09795ee03a681c272020be90c19dac385a3c.jpg"
+    },
+    {
+      "id": "28100169296049_2",
+      "orderId": "28100169296049",
+      "orderedAt": "2026.02.04",
+      "name": "햇반 차돌깍두기볶음밥 (냉동)",
+      "price": 4920,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/1025_amir_coupang_oct_80k/7016/5878e2d54f61a387d49f93b96c49a672cc067fa8c695bc619935415df2cd.jpg"
+    },
+    {
+      "id": "28100169296049_3",
+      "orderId": "28100169296049",
+      "orderedAt": "2026.02.04",
+      "name": "신라명과 호밀빵+",
+      "price": 5900,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/985469858334630-fdaa7339-3b98-4d84-b358-8d62bbf3c84b.jpg"
+    },
+    {
+      "id": "28100168911071_0",
+      "orderId": "28100168911071",
+      "orderedAt": "2026.02.02",
+      "name": "영주마실 사과 소과 5~6개입",
+      "price": 7770,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/rs_quotation_api/lano5xas/bff458b641a64ba2846f31697154fa92.jpg"
+    },
+    {
+      "id": "28100168911071_1",
+      "orderId": "28100168911071",
+      "orderedAt": "2026.02.02",
+      "name": "당도선별 천혜향",
+      "price": 18960,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/341722895605827-dd44a77f-3247-4118-96fe-378ea12bfb21.jpg"
+    },
+    {
+      "id": "28100168911071_2",
+      "orderId": "28100168911071",
+      "orderedAt": "2026.02.02",
+      "name": "올레길 AI 당도선별 12brix 감귤",
+      "price": 11990,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/11039528863761-09f44d75-ec54-4e56-87ca-c397da65007f.jpg"
+    },
+    {
+      "id": "28100168909491_0",
+      "orderId": "28100168909491",
+      "orderedAt": "2026.02.02",
+      "name": "시크릿데이 입는 오버나이트 팬티형",
+      "price": 4950,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/vendor_inventory/60e2/2dcec55c090dd5086059d57028c4832a917f311f8264c84b84c52035fb0a.jpg"
+    },
+    {
+      "id": "28100168553216_0",
+      "orderId": "28100168553216",
+      "orderedAt": "2026.02.01",
+      "name": "팔도 비빔면",
+      "price": 4570,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/519093504615199-29ce40d5-7e6d-4fd3-8b82-3b785a70f500.jpg"
+    },
+    {
+      "id": "28100168553216_1",
+      "orderId": "28100168553216",
+      "orderedAt": "2026.02.01",
+      "name": "피그인더가든 신선한 야채믹스",
+      "price": 4670,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/1912417256519357-6739ae59-9574-4079-9015-9599a6560c22.jpg"
+    },
+    {
+      "id": "28100168553216_2",
+      "orderId": "28100168553216",
+      "orderedAt": "2026.02.01",
+      "name": "곰곰 대추방울 토마토",
+      "price": 4290,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/27265316036577-56aa1781-56cf-41a3-acd1-714e0da6f474.jpg"
+    },
+    {
+      "id": "28100168553216_3",
+      "orderId": "28100168553216",
+      "orderedAt": "2026.02.01",
+      "name": "국내산 흙당근",
+      "price": 980,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/8096734771923510-8aed9104-5723-4d1d-b96e-b8d60481ebe8.jpg"
+    },
+    {
+      "id": "28100168553216_4",
+      "orderId": "28100168553216",
+      "orderedAt": "2026.02.01",
+      "name": "국내산 백오이",
+      "price": 2680,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/7220705008763344-8e1e5f5b-cc82-4027-bd50-23deda6a92b9.jpg"
+    },
+    {
+      "id": "28100168553216_5",
+      "orderId": "28100168553216",
+      "orderedAt": "2026.02.01",
+      "name": "국내산 피망",
+      "price": 2900,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/4324266110830-b849e7dc-91bc-476b-a805-218af5df764a.jpg"
+    },
+    {
+      "id": "28100168553216_6",
+      "orderId": "28100168553216",
+      "orderedAt": "2026.02.01",
+      "name": "곰곰 무항생제 신선한 대란",
+      "price": 5390,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/35222452389004-828df71e-709f-4af8-ab1f-75d1eeb84feb.jpg"
+    },
+    {
+      "id": "28100168553216_7",
+      "orderId": "28100168553216",
+      "orderedAt": "2026.02.01",
+      "name": "곰곰 스위트콘",
+      "price": 1590,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/589441891201097-ceba1c3f-0dfd-4a96-9303-3ecc6a8efc00.jpg"
+    }
+  ],
+  "cancelledIds": [],
+  "checkedIds": []
+}
