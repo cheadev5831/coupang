@@ -1,6 +1,6 @@
 <template>
   <div class="card-base section-gap">
-    <!-- 상단 행: 연도 컨트롤 + 조회 버튼 -->
+    <!-- 상단 행: 연도 컨트롤 -->
     <div class="month-selector__top-row">
       <div class="month-selector__year-control">
         <q-btn
@@ -24,18 +24,6 @@
           @click="nextYear"
         />
       </div>
-
-      <q-btn
-        unelevated
-        color="primary"
-        icon="search"
-        label="조회"
-        size="sm"
-        no-caps
-        :loading="loading"
-        :disable="loading"
-        @click="emit('fetch')"
-      />
     </div>
 
     <!-- 월 버튼 가로 스크롤 -->
@@ -50,6 +38,7 @@
         dense
         no-caps
         size="sm"
+        :disable="loading"
         :class="[
           'month-selector__month-btn',
           selectedMonth === m ? 'month-selector__month-btn--active' : '',
@@ -102,6 +91,7 @@ function nextYear() {
 function selectMonth(m: number) {
   selectedMonth.value = m;
   emitUpdate();
+  emit('fetch');
 }
 
 function emitUpdate() {

@@ -85,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
 import { useQuasar } from 'quasar';
 import 'src/css/layout.css';
 
@@ -234,7 +234,15 @@ function onGitHubClear() {
 }
 
 // ─────────────────────────────────────────────
-// 조회 버튼
+// 초기 자동 조회
+// ─────────────────────────────────────────────
+
+onMounted(() => {
+  void onFetch();
+});
+
+// ─────────────────────────────────────────────
+// 조회
 // ─────────────────────────────────────────────
 
 async function onFetch() {
