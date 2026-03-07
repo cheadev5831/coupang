@@ -13,6 +13,7 @@
       :model-value="selectedMonth"
       :loading="isFetching"
       :months-with-data="monthsWithData"
+      :all-months-with-data="monthsWithDataByYear"
       @update:model-value="Object.assign(selectedMonth, $event)"
       @fetch="onFetch"
     />

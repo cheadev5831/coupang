@@ -61,6 +61,7 @@ const props = defineProps<{
   modelValue: SelectedMonth;
   loading?: boolean;
   monthsWithData?: number[];
+  allMonthsWithData?: Map<number, number[]>;
 }>();
 
 const emit = defineEmits<{
@@ -81,15 +82,22 @@ watch(
 );
 
 function prevYear() {
-  year.value--;
+  const targetYear = year.value - 1;
+  const months = props.allMonthsWithData?.get(targetYear) ?? [];
+  year.value = targetYear;
+  selectedMonth.value = months.length > 0 ? Math.max(...months) : 12;
   emitUpdate();
+  if (months.length > 0) emit('fetch');
 }
 
 function nextYear() {
-  if (year.value < currentYear) {
-    year.value++;
-    emitUpdate();
-  }
+  if (year.value >= currentYear) return;
+  const targetYear = year.value + 1;
+  const months = props.allMonthsWithData?.get(targetYear) ?? [];
+  year.value = targetYear;
+  selectedMonth.value = months.length > 0 ? Math.min(...months) : 1;
+  emitUpdate();
+  if (months.length > 0) emit('fetch');
 }
 
 function selectMonth(m: number) {
