@@ -53,7 +53,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import 'src/css/summary-bar.css';
-import type { OrderSummary } from 'src/data/default';
+import type { OrderSummary } from 'src/models/order';
 
 const props = defineProps<{
   summary: OrderSummary;

@@ -7,7 +7,7 @@ import {
   getDocs,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import type { ProductRow } from 'src/data/default';
+import type { ProductRow } from 'src/models/order';
 
 interface FirestoreOrderData {
   yyyymm: string;

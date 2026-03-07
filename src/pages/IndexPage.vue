@@ -97,12 +97,10 @@ import {
   COOKIE_STORAGE_KEY,
   defaultCookieState,
   defaultSelectedMonth,
-  defaultOrderSummary,
   type CookieState,
   type SelectedMonth,
-  type ProductRow,
-  type OrderSummary,
-} from 'src/data/default';
+} from 'src/models/coupang';
+import type { ProductRow, OrderSummary } from 'src/models/order';
 
 import { fetchOrders } from 'src/services/orderService';
 import {
@@ -163,7 +161,7 @@ const summary = computed<OrderSummary>(() => {
   const products = currentProducts.value;
   const checked = currentCheckedIds.value;
 
-  if (products.length === 0) return { ...defaultOrderSummary };
+  if (products.length === 0) return { totalAmount: 0, checkedAmount: 0, totalCount: 0, checkedCount: 0 };
 
   const checkedProducts = products.filter((p) => checked.has(p.id));
   return {

@@ -20,7 +20,8 @@
       "Bash(npx quasar:*)",
       "Bash(netstat:*)",
       "Bash(npx tsc:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(cp:*)"
     ]
   },
   "dangerouslySkipPermissions": true

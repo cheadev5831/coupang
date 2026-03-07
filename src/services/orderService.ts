@@ -7,8 +7,9 @@
  */
 
 import axios from 'axios';
-import { API_CONFIG, type ProductRow } from 'src/data/default';
-import type { CoupangOrderListResponse, CoupangOrder } from 'src/types/api';
+import { API_CONFIG } from 'src/apis/api';
+import type { ProductRow } from 'src/models/order';
+import type { CoupangOrderListResponse, CoupangOrder } from 'src/models/api';
 
 export interface FetchOrdersResult {
   products: ProductRow[];

@@ -84,7 +84,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import 'src/css/cookie-panel.css';
-import type { CookieState } from 'src/data/default';
+import type { CookieState } from 'src/models/coupang';
 
 const props = defineProps<{
   cookieState: CookieState;

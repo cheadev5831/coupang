@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import 'src/css/month-selector.css';
-import type { SelectedMonth } from 'src/data/default';
+import type { SelectedMonth } from 'src/models/coupang';
 
 const props = defineProps<{
   modelValue: SelectedMonth;

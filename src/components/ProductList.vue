@@ -123,7 +123,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import 'src/css/product-list.css';
-import type { ProductRow } from 'src/data/default';
+import type { ProductRow } from 'src/models/order';
 
 const props = defineProps<{
   products: ProductRow[];

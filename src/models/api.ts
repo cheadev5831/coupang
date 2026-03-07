@@ -5,7 +5,6 @@
  * 파라미터: requestYear, pageIndex, size
  * 헤더: Cookie (사용자 세션 쿠키)
  *
- * 참고: src/precode.js (Google Apps Script 검증 코드)
  */
 
 export interface CoupangApiProduct {
