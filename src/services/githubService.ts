@@ -92,6 +92,43 @@ export async function listDataMonths(
 }
 
 /**
+ * GitHub 레포의 src/data/{yyyymm}.json 파일을 삭제.
+ * 파일이 없으면 404 에러가 발생하며 호출자가 처리한다.
+ *
+ * @param yyyymm  연월 문자열 (예: "202603")
+ * @param token   GitHub Personal Access Token
+ */
+export async function deleteOrdersFromGitHub(
+  yyyymm: string,
+  token?: string | null,
+): Promise<void> {
+  const resolvedToken = resolveToken(token);
+  if (!resolvedToken) throw new Error('GitHub 토큰이 없습니다.');
+
+  const path = `src/data/${yyyymm}.json`;
+  const url = `${GITHUB_API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`;
+
+  // 삭제에 SHA 필수
+  const existing = await axios.get<{ sha: string }>(url, {
+    params: { ref: BRANCH },
+    headers: { Authorization: `Bearer ${resolvedToken}` },
+  });
+  const sha = existing.data.sha;
+
+  await axios.delete(url, {
+    data: {
+      message: `chore: ${yyyymm} 주문 데이터 삭제 (재조회)`,
+      sha,
+      branch: BRANCH,
+    },
+    headers: {
+      Authorization: `Bearer ${resolvedToken}`,
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+/**
  * 지정 연월의 주문 데이터를 GitHub 레포의 src/data/{yyyymm}.json 으로 저장.
  * 파일이 이미 존재하면 덮어씀 (SHA 기반 업데이트).
  *

@@ -24,7 +24,19 @@
       </span>
     </div>
 
-    <!-- 오른쪽: 저장 버튼 -->
+    <!-- 재조회 버튼 (PC 전용) -->
+    <q-btn
+      v-if="showRefetch"
+      class="summary-bar__refetch-btn"
+      unelevated
+      :loading="isRefetching"
+      :disable="isRefetching || isSaving || isFetching"
+      icon="refresh"
+      label="재조회"
+      @click="emit('refetch')"
+    />
+
+    <!-- 저장 버튼 -->
     <q-btn
       class="summary-bar__save-btn"
       unelevated
@@ -46,11 +58,15 @@ import type { OrderSummary } from 'src/data/default';
 const props = defineProps<{
   summary: OrderSummary;
   isSaving?: boolean;
+  isRefetching?: boolean;
+  isFetching?: boolean;
+  showRefetch?: boolean;
 }>();
 
 const emit = defineEmits<{
   'toggle-all': [checked: boolean];
   'save': [];
+  'refetch': [];
 }>();
 
 const checkboxState = computed<boolean | null>(() => {

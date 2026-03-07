@@ -61,6 +61,24 @@
   line-height: 1;
 }
 
+/* ─── 재조회 버튼 ───────────────────────────────── */
+.summary-bar__refetch-btn {
+  flex-shrink: 0;
+  height: 44px;
+  min-width: 76px;
+  background: #3a3a5a !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.2px;
+  transition: opacity 0.15s;
+}
+
+.summary-bar__refetch-btn.disabled {
+  opacity: 0.3 !important;
+}
+
 /* ─── 오른쪽: 저장 버튼 ─────────────────────────── */
 .summary-bar__save-btn {
   flex-shrink: 0;

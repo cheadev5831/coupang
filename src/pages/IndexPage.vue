@@ -73,8 +73,12 @@
     <SummaryBar
       :summary="summary"
       :is-saving="isSaving"
+      :is-refetching="isRefetching"
+      :is-fetching="isFetching"
+      :show-refetch="isDesktop"
       @toggle-all="onToggleAll"
       @save="onSave"
+      @refetch="onRefetch"
     />
   </q-page>
 </template>
@@ -104,7 +108,7 @@ import {
 } from 'src/data/default';
 
 import { fetchOrders } from 'src/services/orderService';
-import { saveOrdersToGitHub, loadOrdersFromGitHub, listDataMonths } from 'src/services/githubService';
+import { saveOrdersToGitHub, loadOrdersFromGitHub, listDataMonths, deleteOrdersFromGitHub } from 'src/services/githubService';
 
 // ─────────────────────────────────────────────
 // 플랫폼
@@ -123,6 +127,7 @@ const monthCacheMap = reactive<Map<MonthCacheKey, MonthCache>>(new Map());
 const checkedItems = reactive<CheckedItemsMap>(new Map());
 const isFetching = ref(false);
 const isSaving = ref(false);
+const isRefetching = ref(false);
 const errorMessage = ref('');
 const githubErrorMessage = ref('');
 const showCookieWarning = ref(false);
@@ -345,6 +350,40 @@ function onToggle(id: string) {
   }
   // Map 내부 Set 변경은 reactive가 감지하지 못하므로 새 Set으로 교체
   checkedItems.set(key, new Set(set));
+}
+
+async function onRefetch() {
+  const yyyymm = `${selectedMonth.year}${String(selectedMonth.month).padStart(2, '0')}`;
+  isRefetching.value = true;
+  githubErrorMessage.value = '';
+  errorMessage.value = '';
+
+  try {
+    // GitHub 파일 삭제 (없으면 무시하고 진행)
+    try {
+      await deleteOrdersFromGitHub(yyyymm);
+      // monthsWithData에서 해당 월 제거
+      const map = new Map(monthsWithDataByYear.value);
+      const filtered = (map.get(selectedMonth.year) ?? []).filter((m) => m !== selectedMonth.month);
+      if (filtered.length > 0) {
+        map.set(selectedMonth.year, filtered);
+      } else {
+        map.delete(selectedMonth.year);
+      }
+      monthsWithDataByYear.value = map;
+    } catch {
+      // 파일 없거나 삭제 실패 시 그냥 재조회
+    }
+
+    // 세션 캐시 제거 (onFetch 캐시 히트 방지)
+    monthCacheMap.delete(currentCacheKey.value);
+    hasFetched.value = false;
+  } finally {
+    isRefetching.value = false;
+  }
+
+  // 쿠팡 API 재조회 → 성공 시 GitHub 자동 저장
+  await onFetch();
 }
 
 async function onSave() {
