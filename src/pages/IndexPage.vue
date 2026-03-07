@@ -17,17 +17,17 @@
       @fetch="onFetch"
     />
 
-    <!-- GitHub 저장 실패 배너 -->
+    <!-- 저장 실패 배너 -->
     <q-banner
-      v-if="githubErrorMessage"
+      v-if="saveErrorMessage"
       dense
       rounded
       class="bg-orange-1 text-orange-9 section-gap"
       icon="cloud_off"
     >
-      {{ githubErrorMessage }}
+      {{ saveErrorMessage }}
       <template #action>
-        <q-btn flat dense size="sm" label="닫기" @click="githubErrorMessage = ''" />
+        <q-btn flat dense size="sm" label="닫기" @click="saveErrorMessage = ''" />
       </template>
     </q-banner>
 
@@ -134,12 +134,12 @@ const isFetching = ref(false);
 const isSaving = ref(false);
 const isRefetching = ref(false);
 const errorMessage = ref('');
-const githubErrorMessage = ref('');
+const saveErrorMessage = ref('');
 const showCookieWarning = ref(false);
 const hasFetched = ref(false);
 
 // ─────────────────────────────────────────────
-// GitHub 기반 has-data 월 목록
+// Firestore 기반 has-data 월 목록
 // ─────────────────────────────────────────────
 
 const monthsWithDataByYear = ref<Map<number, number[]>>(new Map());
@@ -284,7 +284,7 @@ async function onFetch() {
       return;
     }
 
-    // 2. GitHub에 없음 → 모바일은 여기서 종료 (JSON 뷰어 전용)
+    // 2. Firestore에 없음 → 모바일은 여기서 종료
     if (!isDesktop.value) {
       hasFetched.value = true;
       return;
@@ -315,13 +315,13 @@ async function onFetch() {
 
     // Firestore 자동 저장 (데이터 없으면 저장 생략)
     if (products.length > 0) {
-      githubErrorMessage.value = '';
+      saveErrorMessage.value = '';
       try {
         await saveOrdersToFirestore(yyyymm, products, cancelledIds, new Set());
         addToDataMonths(selectedMonth.year, selectedMonth.month);
       } catch (saveErr) {
         const msg = saveErr instanceof Error ? saveErr.message : '알 수 없는 오류';
-        githubErrorMessage.value = `저장 실패: ${msg}`;
+        saveErrorMessage.value = `저장 실패: ${msg}`;
       }
     }
   } catch (err) {
@@ -360,7 +360,7 @@ function onToggle(id: string) {
 async function onRefetch() {
   const yyyymm = `${selectedMonth.year}${String(selectedMonth.month).padStart(2, '0')}`;
   isRefetching.value = true;
-  githubErrorMessage.value = '';
+  saveErrorMessage.value = '';
   errorMessage.value = '';
 
   try {
@@ -387,21 +387,21 @@ async function onRefetch() {
     isRefetching.value = false;
   }
 
-  // 쿠팡 API 재조회 → 성공 시 GitHub 자동 저장
+  // 쿠팡 API 재조회 → 성공 시 Firestore 자동 저장
   await onFetch();
 }
 
 async function onSave() {
   const yyyymm = `${selectedMonth.year}${String(selectedMonth.month).padStart(2, '0')}`;
   isSaving.value = true;
-  githubErrorMessage.value = '';
+  saveErrorMessage.value = '';
   try {
     await saveOrdersToFirestore(yyyymm, currentProducts.value, currentCancelledIds.value, currentCheckedIds.value);
     addToDataMonths(selectedMonth.year, selectedMonth.month);
     $q.notify({ type: 'positive', message: '저장되었습니다.' });
   } catch (err) {
     const msg = err instanceof Error ? err.message : '알 수 없는 오류';
-    githubErrorMessage.value = `저장 실패: ${msg}`;
+    saveErrorMessage.value = `저장 실패: ${msg}`;
   } finally {
     isSaving.value = false;
   }
