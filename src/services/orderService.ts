@@ -9,7 +9,7 @@
 import axios from 'axios';
 import { API_CONFIG } from 'src/apis/api';
 import type { ProductRow } from 'src/models/order';
-import type { CoupangOrderListResponse, CoupangOrder } from 'src/models/api';
+import type { CoupangOrderListResponse, CoupangOrder } from 'src/models/coupang';
 
 export interface FetchOrdersResult {
   products: ProductRow[];

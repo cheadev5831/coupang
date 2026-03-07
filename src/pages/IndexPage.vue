@@ -99,7 +99,7 @@ import {
   defaultSelectedMonth,
   type CookieState,
   type SelectedMonth,
-} from 'src/models/coupang';
+} from 'src/models/app';
 import type { ProductRow, OrderSummary } from 'src/models/order';
 
 import { fetchOrders } from 'src/services/orderService';
