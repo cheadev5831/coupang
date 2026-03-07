@@ -108,7 +108,12 @@ import {
 } from 'src/data/default';
 
 import { fetchOrders } from 'src/services/orderService';
-import { saveOrdersToGitHub, loadOrdersFromGitHub, listDataMonths, deleteOrdersFromGitHub } from 'src/services/githubService';
+import {
+  loadOrdersFromFirestore,
+  saveOrdersToFirestore,
+  deleteOrdersFromFirestore,
+  listDataMonths,
+} from 'src/services/firestoreService';
 
 // ─────────────────────────────────────────────
 // 플랫폼
@@ -262,18 +267,18 @@ async function onFetch() {
   const yyyymm = `${selectedMonth.year}${String(selectedMonth.month).padStart(2, '0')}`;
 
   try {
-    // 1. GitHub 우선 로드 시도
-    const githubData = await loadOrdersFromGitHub(yyyymm);
-    if (githubData) {
+    // 1. Firestore 우선 로드 시도
+    const savedData = await loadOrdersFromFirestore(yyyymm);
+    if (savedData) {
       monthCacheMap.set(currentCacheKey.value, {
         key: currentCacheKey.value,
-        products: githubData.products,
-        cancelledIds: githubData.cancelledIds,
+        products: savedData.products,
+        cancelledIds: savedData.cancelledIds,
         cachedAt: new Date().toISOString(),
         status: 'success',
         errorMessage: null,
       });
-      checkedItems.set(currentCacheKey.value, githubData.checkedIds);
+      checkedItems.set(currentCacheKey.value, savedData.checkedIds);
       addToDataMonths(selectedMonth.year, selectedMonth.month);
       hasFetched.value = true;
       return;
@@ -308,15 +313,15 @@ async function onFetch() {
 
     hasFetched.value = true;
 
-    // GitHub 자동 저장 (데이터 없으면 업로드 생략)
+    // Firestore 자동 저장 (데이터 없으면 저장 생략)
     if (products.length > 0) {
       githubErrorMessage.value = '';
       try {
-        await saveOrdersToGitHub(yyyymm, products, cancelledIds, new Set());
+        await saveOrdersToFirestore(yyyymm, products, cancelledIds, new Set());
         addToDataMonths(selectedMonth.year, selectedMonth.month);
-      } catch (githubErr) {
-        const msg = githubErr instanceof Error ? githubErr.message : '알 수 없는 오류';
-        githubErrorMessage.value = `GitHub 저장 실패: ${msg}`;
+      } catch (saveErr) {
+        const msg = saveErr instanceof Error ? saveErr.message : '알 수 없는 오류';
+        githubErrorMessage.value = `저장 실패: ${msg}`;
       }
     }
   } catch (err) {
@@ -359,9 +364,9 @@ async function onRefetch() {
   errorMessage.value = '';
 
   try {
-    // GitHub 파일 삭제 (없으면 무시하고 진행)
+    // Firestore 문서 삭제 (없으면 무시하고 진행)
     try {
-      await deleteOrdersFromGitHub(yyyymm);
+      await deleteOrdersFromFirestore(yyyymm);
       // monthsWithData에서 해당 월 제거
       const map = new Map(monthsWithDataByYear.value);
       const filtered = (map.get(selectedMonth.year) ?? []).filter((m) => m !== selectedMonth.month);
@@ -391,12 +396,12 @@ async function onSave() {
   isSaving.value = true;
   githubErrorMessage.value = '';
   try {
-    await saveOrdersToGitHub(yyyymm, currentProducts.value, currentCancelledIds.value, currentCheckedIds.value);
+    await saveOrdersToFirestore(yyyymm, currentProducts.value, currentCancelledIds.value, currentCheckedIds.value);
     addToDataMonths(selectedMonth.year, selectedMonth.month);
-    $q.notify({ type: 'positive', message: 'GitHub에 저장되었습니다.' });
+    $q.notify({ type: 'positive', message: '저장되었습니다.' });
   } catch (err) {
     const msg = err instanceof Error ? err.message : '알 수 없는 오류';
-    githubErrorMessage.value = `GitHub 저장 실패: ${msg}`;
+    githubErrorMessage.value = `저장 실패: ${msg}`;
   } finally {
     isSaving.value = false;
   }
