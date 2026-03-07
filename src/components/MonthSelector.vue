@@ -1,51 +1,53 @@
 <template>
   <div class="card-base section-gap">
-    <!-- 상단 행: 연도 컨트롤 -->
-    <div class="month-selector__top-row">
+    <!-- 연도 + 월 버튼 통합 1행 -->
+    <div class="month-selector__row">
+      <!-- 연도 컨트롤 (세로 배치) -->
       <div class="month-selector__year-control">
         <q-btn
           flat
           round
           dense
-          icon="chevron_left"
+          icon="expand_less"
           color="grey-7"
-          size="sm"
-          @click="prevYear"
+          size="xs"
+          :disable="loading || year >= currentYear"
+          @click="nextYear"
         />
         <span class="month-selector__year-label">{{ year }}년</span>
         <q-btn
           flat
           round
           dense
-          icon="chevron_right"
+          icon="expand_more"
           color="grey-7"
-          size="sm"
-          :disable="year >= currentYear"
-          @click="nextYear"
+          size="xs"
+          :disable="loading"
+          @click="prevYear"
         />
       </div>
-    </div>
 
-    <!-- 월 버튼 가로 스크롤 -->
-    <div class="month-selector__months">
-      <q-btn
-        v-for="m in 12"
-        :key="m"
-        :label="`${m}월`"
-        :color="selectedMonth === m ? 'primary' : 'grey-2'"
-        :text-color="selectedMonth === m ? 'white' : 'grey-7'"
-        unelevated
-        dense
-        no-caps
-        size="sm"
-        :disable="loading"
-        :class="[
-          'month-selector__month-btn',
-          selectedMonth === m ? 'month-selector__month-btn--active' : '',
-          props.monthsWithData?.includes(m) ? 'month-selector__month-btn--has-data' : '',
-        ]"
-        @click="selectMonth(m)"
-      />
+      <!-- 월 버튼 6x2 그리드 -->
+      <div class="month-selector__months">
+        <q-btn
+          v-for="m in 12"
+          :key="m"
+          :label="`${m}월`"
+          :color="selectedMonth === m ? 'primary' : 'grey-2'"
+          :text-color="selectedMonth === m ? 'white' : 'grey-7'"
+          unelevated
+          dense
+          no-caps
+          size="sm"
+          :disable="loading"
+          :class="[
+            'month-selector__month-btn',
+            selectedMonth === m ? 'month-selector__month-btn--active' : '',
+            props.monthsWithData?.includes(m) ? 'month-selector__month-btn--has-data' : '',
+          ]"
+          @click="selectMonth(m)"
+        />
+      </div>
     </div>
   </div>
 </template>
