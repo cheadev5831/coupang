@@ -18,7 +18,9 @@
       "Bash(gh run:*)",
       "Bash(rm:*)",
       "Bash(npx quasar:*)",
-      "Bash(netstat:*)"
+      "Bash(netstat:*)",
+      "Bash(npx tsc:*)",
+      "Bash(cat:*)"
     ]
   },
   "dangerouslySkipPermissions": true
