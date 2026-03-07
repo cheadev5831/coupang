@@ -1,0 +1,136 @@
+{
+  "yyyymm": "202603",
+  "savedAt": "2026-03-07T09:45:11.947Z",
+  "products": [
+    {
+      "id": "28100175525042_0",
+      "orderId": "28100175525042",
+      "orderedAt": "2026.03.07",
+      "name": "그루 이중안심 천연펄프 키친타올",
+      "price": 6390,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/1025_amir_coupang_oct_80k/2ad0/125df724f38f1e005026f609af52b8d9859ea97e9e52f8654214ef0d02dc.jpg"
+    },
+    {
+      "id": "28100175525042_1",
+      "orderId": "28100175525042",
+      "orderedAt": "2026.03.07",
+      "name": "크리넥스 천연펄프 3겹 데코 앤 소프트 화장지",
+      "price": 20900,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/13789712057405-770e1401-e586-4850-94d8-6f710733f232.png"
+    },
+    {
+      "id": "28100175363145_0",
+      "orderId": "28100175363145",
+      "orderedAt": "2026.03.06",
+      "name": "햇반 건강한습관 라이스플랜 현미귀리 닭가슴살 김치 볶음밥 2개입 (냉동)",
+      "price": 6500,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/1556650417227295-22eed425-12bd-43ca-aaf4-54ce773d471c.jpg"
+    },
+    {
+      "id": "28100175363145_1",
+      "orderId": "28100175363145",
+      "orderedAt": "2026.03.06",
+      "name": "대상 청정원 고추장제육 볶음밥 2인분 (냉동)",
+      "price": 3980,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/rs_quotation_api/xmgvdkly/87bae399f48b4a4a9e2226a19a650724.jpg"
+    },
+    {
+      "id": "28100175363145_2",
+      "orderId": "28100175363145",
+      "orderedAt": "2026.03.06",
+      "name": "가뿐한끼 새우계란 곤약볶음밥 2인분 (냉동)",
+      "price": 7900,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/74622269294785-534a01a3-2596-4a63-a248-2b2a39ec2fc8.jpg"
+    },
+    {
+      "id": "28100175363145_3",
+      "orderId": "28100175363145",
+      "orderedAt": "2026.03.06",
+      "name": "청정원순창 쇠고기 볶음 고추장",
+      "price": 4320,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/1767735073997636-16ee4fe3-0d78-431d-8a54-4c7d9240f510.png"
+    },
+    {
+      "id": "28100175235882_0",
+      "orderId": "28100175235882",
+      "orderedAt": "2026.03.06",
+      "name": "싱하 소다워터 탄산수",
+      "price": 19100,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/135496712496634-723931c3-a512-42d4-b176-57adc4c04faa.jpg"
+    },
+    {
+      "id": "28100174790470_0",
+      "orderId": "28100174790470",
+      "orderedAt": "2026.03.04",
+      "name": "할리스 스테비아 커피믹스",
+      "price": 8500,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/vendor_inventory/01fb/d06fecbed8a14f97634cd74e2630ab348f6631dfdefe61ed8991bef8918a.jpg"
+    },
+    {
+      "id": "28100174384001_0",
+      "orderId": "28100174384001",
+      "orderedAt": "2026.03.02",
+      "name": "홍승환 농부의 안성 배 3입",
+      "price": 16900,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/rs_quotation_api/lwhiojtj/39b117edd77442e4aa0e10b475f45702.jpg"
+    },
+    {
+      "id": "28100174384001_1",
+      "orderId": "28100174384001",
+      "orderedAt": "2026.03.02",
+      "name": "고당도 감귤",
+      "price": 17080,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/292769302160236-6339804d-e780-4cde-8040-d2f83fc2477f.jpg"
+    },
+    {
+      "id": "28100174384060_0",
+      "orderId": "28100174384060",
+      "orderedAt": "2026.03.02",
+      "name": "한끼통살 그릴드 닭가슴살 소이갈릭 (냉동)",
+      "price": 41940,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/a76cc2b7-b037-420b-aba6-71d69f31c5ce6187658499873095505.png"
+    },
+    {
+      "id": "28100174384060_1",
+      "orderId": "28100174384060",
+      "orderedAt": "2026.03.02",
+      "name": "한끼통살 그릴드 닭가슴살 저크바베큐 (냉동)",
+      "price": 21620,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/1025_amir_coupang_oct_80k/beec/e47ee212fde307dcbe87765d0693a1bb9f4dc4716db4de93e55784b9ea70.jpg"
+    },
+    {
+      "id": "28100174384047_0",
+      "orderId": "28100174384047",
+      "orderedAt": "2026.03.02",
+      "name": "프리미엄 설향딸기",
+      "price": 14900,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/rs_quotation_api/hrbfvsuf/75377379adb84a3eb56586e2858c5b7b.jpg"
+    },
+    {
+      "id": "28100174384047_1",
+      "orderId": "28100174384047",
+      "orderedAt": "2026.03.02",
+      "name": "햇반 건강한습관 라이스플랜 현미귀리 닭가슴살 갈릭 볶음밥 2인분 (냉동)",
+      "price": 15190,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/1557484804121605-7880d4f2-af66-4e96-8ee1-674cc6fdd631.jpg"
+    },
+    {
+      "id": "28100174384047_2",
+      "orderId": "28100174384047",
+      "orderedAt": "2026.03.02",
+      "name": "컷팅 골드 파인애플",
+      "price": 8980,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/retail/images/1445192558908333-1a430ade-5cda-40d7-9179-90a16bf22ea0.jpg"
+    },
+    {
+      "id": "28100174099948_0",
+      "orderId": "28100174099948",
+      "orderedAt": "2026.03.01",
+      "name": "로랜텍 60W PD 파스텔 C to C 초고속충전 케이블",
+      "price": 6140,
+      "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/120x120ex/image/vendor_inventory/f6d3/17fe10c305b7879dc785feae23ea5c607cc4f305bbfd4dbbf43c65cfa6c0.jpg"
+    }
+  ],
+  "cancelledIds": [],
+  "checkedIds": []
+}
