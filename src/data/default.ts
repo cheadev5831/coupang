@@ -92,24 +92,12 @@ export interface ProductRow {
 export type MonthCacheKey = string;
 
 export interface MonthCache {
-  key: MonthCacheKey;
   /** 상품 행 단위 전체 목록 (정렬: orderedAt 내림차순) */
   products: ProductRow[];
   /** 취소/반품 상품 ID 집합 (ProductRow.id) */
   cancelledIds: Set<string>;
-  cachedAt: string;
-  status: 'idle' | 'loading' | 'success' | 'error';
-  errorMessage: string | null;
+  status: 'success' | 'error';
 }
-
-export const defaultMonthCache: MonthCache = {
-  key: '',
-  products: [],
-  cancelledIds: new Set(),
-  cachedAt: '',
-  status: 'idle',
-  errorMessage: null,
-};
 
 // ─────────────────────────────────────────────
 // 금액 집계

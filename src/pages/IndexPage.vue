@@ -87,7 +87,6 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue';
 import { useQuasar } from 'quasar';
-import 'src/css/layout.css';
 
 import CookiePanel from 'components/CookiePanel.vue';
 import MonthSelector from 'components/MonthSelector.vue';
@@ -272,12 +271,9 @@ async function onFetch() {
     const savedData = await loadOrdersFromFirestore(yyyymm);
     if (savedData) {
       monthCacheMap.set(currentCacheKey.value, {
-        key: currentCacheKey.value,
         products: savedData.products,
         cancelledIds: savedData.cancelledIds,
-        cachedAt: new Date().toISOString(),
         status: 'success',
-        errorMessage: null,
       });
       checkedItems.set(currentCacheKey.value, savedData.checkedIds);
       addToDataMonths(selectedMonth.year, selectedMonth.month);
@@ -304,12 +300,9 @@ async function onFetch() {
     );
 
     monthCacheMap.set(currentCacheKey.value, {
-      key: currentCacheKey.value,
       products,
       cancelledIds,
-      cachedAt: new Date().toISOString(),
       status: 'success',
-      errorMessage: null,
     });
 
     hasFetched.value = true;
@@ -329,12 +322,9 @@ async function onFetch() {
     const message = err instanceof Error ? err.message : '알 수 없는 오류';
     errorMessage.value = `조회 중 오류가 발생했습니다. 쿠키를 확인해 주세요. (${message})`;
     monthCacheMap.set(currentCacheKey.value, {
-      key: currentCacheKey.value,
       products: [],
       cancelledIds: new Set(),
-      cachedAt: new Date().toISOString(),
       status: 'error',
-      errorMessage: message,
     });
   } finally {
     isFetching.value = false;

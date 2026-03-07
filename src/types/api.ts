@@ -41,8 +41,6 @@ export interface CoupangOrder {
   orderId: string | number;
   /** 주문 일시 (Unix timestamp ms) */
   orderedAt: number;
-  /** 기본 배송비 */
-  baseDeliveryPrice: number;
   deliveryGroupList: CoupangDeliveryGroup[];
   /** 묶음 배송 영수증 목록 */
   bundleReceiptList?: CoupangBundleReceipt[];
