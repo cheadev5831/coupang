@@ -83,23 +83,6 @@ export interface ProductRow {
 }
 
 // ─────────────────────────────────────────────
-// 월별 캐시
-// ─────────────────────────────────────────────
-
-/**
- * 캐시 키 형식: "YYYY-MM" (예: "2026-02")
- */
-export type MonthCacheKey = string;
-
-export interface MonthCache {
-  /** 상품 행 단위 전체 목록 (정렬: orderedAt 내림차순) */
-  products: ProductRow[];
-  /** 취소/반품 상품 ID 집합 (ProductRow.id) */
-  cancelledIds: Set<string>;
-  status: 'success' | 'error';
-}
-
-// ─────────────────────────────────────────────
 // 금액 집계
 // ─────────────────────────────────────────────
 
@@ -127,20 +110,6 @@ export const defaultOrderSummary: OrderSummary = {
   totalCount: 0,
   checkedCount: 0,
 };
-
-// ─────────────────────────────────────────────
-// 체크 상태
-// ─────────────────────────────────────────────
-
-/**
- * 월별 체크된 상품 ID 집합
- *
- * key: MonthCacheKey ("YYYY-MM")
- * value: 체크된 ProductRow.id 의 Set
- *
- * 월별로 독립 관리 → 탭 전환 후 복귀 시 상태 유지
- */
-export type CheckedItemsMap = Map<MonthCacheKey, Set<string>>;
 
 // ─────────────────────────────────────────────
 // API 설정

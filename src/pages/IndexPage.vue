@@ -101,9 +101,6 @@ import {
   type CookieState,
   type SelectedMonth,
   type ProductRow,
-  type MonthCache,
-  type MonthCacheKey,
-  type CheckedItemsMap,
   type OrderSummary,
 } from 'src/data/default';
 
@@ -128,8 +125,9 @@ const isDesktop = computed(() => $q.platform.is.desktop);
 
 const cookieState = reactive<CookieState>({ ...defaultCookieState });
 const selectedMonth = reactive<SelectedMonth>({ ...defaultSelectedMonth });
-const monthCacheMap = reactive<Map<MonthCacheKey, MonthCache>>(new Map());
-const checkedItems = reactive<CheckedItemsMap>(new Map());
+const currentProducts = ref<ProductRow[]>([]);
+const currentCancelledIds = ref<Set<string>>(new Set());
+const currentCheckedIds = ref<Set<string>>(new Set());
 const isFetching = ref(false);
 const isSaving = ref(false);
 const isRefetching = ref(false);
@@ -156,26 +154,6 @@ function addToDataMonths(year: number, month: number) {
     monthsWithDataByYear.value = map;
   }
 }
-
-// ─────────────────────────────────────────────
-// 캐시 키
-// ─────────────────────────────────────────────
-
-const currentCacheKey = computed<MonthCacheKey>(
-  () => `${selectedMonth.year}-${String(selectedMonth.month).padStart(2, '0')}`,
-);
-
-const currentCache = computed(() => monthCacheMap.get(currentCacheKey.value));
-
-const currentProducts = computed<ProductRow[]>(() => currentCache.value?.products ?? []);
-
-const currentCancelledIds = computed<Set<string>>(
-  () => currentCache.value?.cancelledIds ?? new Set(),
-);
-
-const currentCheckedIds = computed<Set<string>>(
-  () => checkedItems.get(currentCacheKey.value) ?? new Set(),
-);
 
 // ─────────────────────────────────────────────
 // 금액 집계
@@ -225,8 +203,9 @@ function onCookieClear() {
   cookieState.value = null;
   cookieState.isSet = false;
   cookieState.savedAt = null;
-  monthCacheMap.clear();
-  checkedItems.clear();
+  currentProducts.value = [];
+  currentCancelledIds.value = new Set();
+  currentCheckedIds.value = new Set();
   hasFetched.value = false;
 }
 
@@ -253,29 +232,21 @@ onMounted(() => {
 async function onFetch() {
   showCookieWarning.value = false;
   errorMessage.value = '';
-
-  // 세션 캐시 히트
-  if (monthCacheMap.get(currentCacheKey.value)?.status === 'success') {
-    hasFetched.value = true;
-    return;
-  }
-
-  checkedItems.set(currentCacheKey.value, new Set());
+  currentProducts.value = [];
+  currentCancelledIds.value = new Set();
+  currentCheckedIds.value = new Set();
   isFetching.value = true;
   hasFetched.value = false;
 
   const yyyymm = `${selectedMonth.year}${String(selectedMonth.month).padStart(2, '0')}`;
 
   try {
-    // 1. Firestore 우선 로드 시도
+    // 1. Firestore 우선 로드
     const savedData = await loadOrdersFromFirestore(yyyymm);
     if (savedData) {
-      monthCacheMap.set(currentCacheKey.value, {
-        products: savedData.products,
-        cancelledIds: savedData.cancelledIds,
-        status: 'success',
-      });
-      checkedItems.set(currentCacheKey.value, savedData.checkedIds);
+      currentProducts.value = savedData.products;
+      currentCancelledIds.value = savedData.cancelledIds;
+      currentCheckedIds.value = savedData.checkedIds;
       addToDataMonths(selectedMonth.year, selectedMonth.month);
       hasFetched.value = true;
       return;
@@ -299,12 +270,8 @@ async function onFetch() {
       cookieState.value,
     );
 
-    monthCacheMap.set(currentCacheKey.value, {
-      products,
-      cancelledIds,
-      status: 'success',
-    });
-
+    currentProducts.value = products;
+    currentCancelledIds.value = cancelledIds;
     hasFetched.value = true;
 
     // Firestore 자동 저장 (데이터 없으면 저장 생략)
@@ -321,11 +288,6 @@ async function onFetch() {
   } catch (err) {
     const message = err instanceof Error ? err.message : '알 수 없는 오류';
     errorMessage.value = `조회 중 오류가 발생했습니다. 쿠키를 확인해 주세요. (${message})`;
-    monthCacheMap.set(currentCacheKey.value, {
-      products: [],
-      cancelledIds: new Set(),
-      status: 'error',
-    });
   } finally {
     isFetching.value = false;
   }
@@ -336,16 +298,13 @@ async function onFetch() {
 // ─────────────────────────────────────────────
 
 function onToggle(id: string) {
-  const key = currentCacheKey.value;
-  if (!checkedItems.has(key)) checkedItems.set(key, new Set());
-  const set = checkedItems.get(key)!;
+  const set = new Set(currentCheckedIds.value);
   if (set.has(id)) {
     set.delete(id);
   } else {
     set.add(id);
   }
-  // Map 내부 Set 변경은 reactive가 감지하지 못하므로 새 Set으로 교체
-  checkedItems.set(key, new Set(set));
+  currentCheckedIds.value = set;
 }
 
 async function onRefetch() {
@@ -358,7 +317,6 @@ async function onRefetch() {
     // Firestore 문서 삭제 (없으면 무시하고 진행)
     try {
       await deleteOrdersFromFirestore(yyyymm);
-      // monthsWithData에서 해당 월 제거
       const map = new Map(monthsWithDataByYear.value);
       const filtered = (map.get(selectedMonth.year) ?? []).filter((m) => m !== selectedMonth.month);
       if (filtered.length > 0) {
@@ -368,12 +326,8 @@ async function onRefetch() {
       }
       monthsWithDataByYear.value = map;
     } catch {
-      // 파일 없거나 삭제 실패 시 그냥 재조회
+      // 삭제 실패 시 그냥 재조회
     }
-
-    // 세션 캐시 제거 (onFetch 캐시 히트 방지)
-    monthCacheMap.delete(currentCacheKey.value);
-    hasFetched.value = false;
   } finally {
     isRefetching.value = false;
   }
@@ -399,11 +353,10 @@ async function onSave() {
 }
 
 function onToggleAll(checked: boolean) {
-  const key = currentCacheKey.value;
   if (checked) {
-    checkedItems.set(key, new Set(currentProducts.value.map((p) => p.id)));
+    currentCheckedIds.value = new Set(currentProducts.value.map((p) => p.id));
   } else {
-    checkedItems.set(key, new Set());
+    currentCheckedIds.value = new Set();
   }
 }
 </script>
