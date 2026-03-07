@@ -64,7 +64,6 @@
     <ProductList
       :products="currentProducts"
       :checked-ids="currentCheckedIds"
-      :cancelled-ids="currentCancelledIds"
       :loading="isFetching"
       :has-fetched="hasFetched"
       @toggle="onToggle"
@@ -124,7 +123,6 @@ const isDesktop = computed(() => $q.platform.is.desktop);
 const cookieState = reactive<CookieState>({ ...defaultCookieState });
 const selectedMonth = reactive<SelectedMonth>({ ...defaultSelectedMonth });
 const currentProducts = ref<ProductRow[]>([]);
-const currentCancelledIds = ref<Set<string>>(new Set());
 const currentCheckedIds = ref<Set<string>>(new Set());
 const isFetching = ref(false);
 const isSaving = ref(false);
@@ -202,7 +200,6 @@ function onCookieClear() {
   cookieState.isSet = false;
   cookieState.savedAt = null;
   currentProducts.value = [];
-  currentCancelledIds.value = new Set();
   currentCheckedIds.value = new Set();
   hasFetched.value = false;
 }
@@ -231,7 +228,6 @@ async function onFetch() {
   showCookieWarning.value = false;
   errorMessage.value = '';
   currentProducts.value = [];
-  currentCancelledIds.value = new Set();
   currentCheckedIds.value = new Set();
   isFetching.value = true;
   hasFetched.value = false;
@@ -243,7 +239,6 @@ async function onFetch() {
     const savedData = await loadOrdersFromFirestore(yyyymm);
     if (savedData) {
       currentProducts.value = savedData.products;
-      currentCancelledIds.value = savedData.cancelledIds;
       currentCheckedIds.value = savedData.checkedIds;
       addToDataMonths(selectedMonth.year, selectedMonth.month);
       hasFetched.value = true;
@@ -262,21 +257,20 @@ async function onFetch() {
       return;
     }
 
-    const { products, cancelledIds } = await fetchOrders(
+    const { products } = await fetchOrders(
       selectedMonth.year,
       selectedMonth.month,
       cookieState.value,
     );
 
     currentProducts.value = products;
-    currentCancelledIds.value = cancelledIds;
     hasFetched.value = true;
 
     // Firestore 자동 저장 (데이터 없으면 저장 생략)
     if (products.length > 0) {
       saveErrorMessage.value = '';
       try {
-        await saveOrdersToFirestore(yyyymm, products, cancelledIds, new Set());
+        await saveOrdersToFirestore(yyyymm, products, new Set());
         addToDataMonths(selectedMonth.year, selectedMonth.month);
       } catch (saveErr) {
         const msg = saveErr instanceof Error ? saveErr.message : '알 수 없는 오류';
@@ -339,7 +333,7 @@ async function onSave() {
   isSaving.value = true;
   saveErrorMessage.value = '';
   try {
-    await saveOrdersToFirestore(yyyymm, currentProducts.value, currentCancelledIds.value, currentCheckedIds.value);
+    await saveOrdersToFirestore(yyyymm, currentProducts.value, currentCheckedIds.value);
     addToDataMonths(selectedMonth.year, selectedMonth.month);
     $q.notify({ type: 'positive', message: '저장되었습니다.' });
   } catch (err) {

@@ -16,10 +16,6 @@
   border-left-color: #e62418 !important;
 }
 
-.product-item--cancelled {
-  opacity: 0.6;
-}
-
 /* ─── 체크박스 영역 ─────────────────────────────── */
 .product-item__check-section {
   min-width: 40px !important;
@@ -66,11 +62,6 @@
   color: #1a1a2e !important;
 }
 
-.product-item__name--cancelled {
-  text-decoration: line-through !important;
-  color: #bdbdbd !important;
-}
-
 /* ─── 날짜·주문번호 메타 ──────────────────────────── */
 .product-item__meta {
   font-size: 11px !important;
@@ -89,11 +80,6 @@
 
 .product-item__price--checked {
   color: #e62418;
-}
-
-.product-item__price--cancelled {
-  color: #bdbdbd;
-  text-decoration: line-through;
 }
 
 /* ─── 빈 상태 ───────────────────────────────────── */

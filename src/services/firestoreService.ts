@@ -13,20 +13,18 @@ interface FirestoreOrderData {
   yyyymm: string;
   savedAt: string;
   products: ProductRow[];
-  cancelledIds: string[];
   checkedIds: string[];
 }
 
 export async function loadOrdersFromFirestore(
   yyyymm: string,
-): Promise<{ products: ProductRow[]; cancelledIds: Set<string>; checkedIds: Set<string> } | null> {
+): Promise<{ products: ProductRow[]; checkedIds: Set<string> } | null> {
   const snap = await getDoc(doc(db, 'orders', yyyymm));
   if (!snap.exists()) return null;
 
   const data = snap.data() as FirestoreOrderData;
   return {
     products: data.products,
-    cancelledIds: new Set(data.cancelledIds),
     checkedIds: new Set(data.checkedIds ?? []),
   };
 }
@@ -34,14 +32,12 @@ export async function loadOrdersFromFirestore(
 export async function saveOrdersToFirestore(
   yyyymm: string,
   products: ProductRow[],
-  cancelledIds: Set<string>,
   checkedIds: Set<string>,
 ): Promise<void> {
   const data: FirestoreOrderData = {
     yyyymm,
     savedAt: new Date().toISOString(),
     products,
-    cancelledIds: Array.from(cancelledIds),
     checkedIds: Array.from(checkedIds),
   };
   await setDoc(doc(db, 'orders', yyyymm), data);

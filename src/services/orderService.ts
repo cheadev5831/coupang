@@ -3,7 +3,7 @@
  *
  * - API: GET /api/ssr/api/myorders/model/page (Vite 프록시 → mc.coupang.com)
  * - 페이지네이션: pageIndex 0부터 증가, 해당 월보다 이전 날짜 항목 발견 시 종료
- * - 취소/반품 상품: 집계 포함하되 cancelledIds Set에 추가 (UI에서 취소선 처리)
+ * - 취소/반품 그룹은 목록에서 제외
  */
 
 import axios from 'axios';
@@ -13,7 +13,6 @@ import type { CoupangOrderListResponse, CoupangOrder } from 'src/models/coupang'
 
 export interface FetchOrdersResult {
   products: ProductRow[];
-  cancelledIds: Set<string>;
 }
 
 /** orderedAt(ms timestamp) → { orderDate: 'YYYYMMDD', orderedAt: 'YYYY.MM.DD' } */
@@ -28,13 +27,8 @@ function parseOrderDate(timestamp: number): { orderDate: string; displayDate: st
   };
 }
 
-/** 한 주문의 상품 행들을 ProductRow[] + cancelledIds 로 변환 */
-function parseOrderProducts(
-  order: CoupangOrder,
-  displayDate: string,
-): { rows: ProductRow[]; cancelledIds: string[] } {
+function parseOrderProducts(order: CoupangOrder, displayDate: string): ProductRow[] {
   const rows: ProductRow[] = [];
-  const cancelledIds: string[] = [];
   let productIdx = 0;
 
   // bundle -> shippingFee 매핑
@@ -85,7 +79,7 @@ function parseOrderProducts(
     }
   }
 
-  return { rows, cancelledIds };
+  return rows;
 }
 
 /**
@@ -106,8 +100,6 @@ export async function fetchOrders(
   const stopDate = `${yearStr}${monthStr}01`;
 
   const allProducts: ProductRow[] = [];
-  const allCancelledIds = new Set<string>();
-
   let pageIndex = 0;
   let hasMore = true;
 
@@ -147,13 +139,11 @@ export async function fetchOrders(
 
       if (!orderDate.startsWith(yearStr + monthStr)) continue;
 
-      const { rows, cancelledIds } = parseOrderProducts(order, displayDate);
-      allProducts.push(...rows);
-      cancelledIds.forEach((id) => allCancelledIds.add(id));
+      allProducts.push(...parseOrderProducts(order, displayDate));
     }
 
     pageIndex++;
   }
 
-  return { products: allProducts, cancelledIds: allCancelledIds };
+  return { products: allProducts };
 }

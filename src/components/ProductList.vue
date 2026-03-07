@@ -44,7 +44,6 @@
           :class="[
             'product-item',
             checkedIds.has(row.id) ? 'product-item--checked' : '',
-            resolvedCancelledIds.has(row.id) ? 'product-item--cancelled' : '',
           ]"
           @click="emit('toggle', row.id)"
         >
@@ -85,17 +84,9 @@
               :class="[
                 'product-item__name',
                 checkedIds.has(row.id) ? 'product-item__name--checked' : '',
-                resolvedCancelledIds.has(row.id) ? 'product-item__name--cancelled' : '',
               ]"
             >
               {{ row.name }}
-              <q-badge
-                v-if="resolvedCancelledIds.has(row.id)"
-                color="grey-3"
-                text-color="grey-6"
-                label="취소"
-                class="q-ml-xs"
-              />
             </q-item-label>
             <q-item-label class="product-item__meta">
               {{ row.orderedAt }}&ensp;·&ensp;{{ row.orderId }}
@@ -108,7 +99,6 @@
               :class="[
                 'product-item__price',
                 checkedIds.has(row.id) ? 'product-item__price--checked' : '',
-                resolvedCancelledIds.has(row.id) ? 'product-item__price--cancelled' : '',
               ]"
             >
               {{ row.price.toLocaleString('ko-KR') }}원
@@ -121,14 +111,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import 'src/css/product-list.css';
 import type { ProductRow } from 'src/models/order';
 
-const props = defineProps<{
+defineProps<{
   products: ProductRow[];
   checkedIds: Set<string>;
-  cancelledIds?: Set<string>;
   loading?: boolean;
   hasFetched?: boolean;
 }>();
@@ -136,6 +124,4 @@ const props = defineProps<{
 const emit = defineEmits<{
   toggle: [id: string];
 }>();
-
-const resolvedCancelledIds = computed(() => props.cancelledIds ?? new Set<string>());
 </script>
