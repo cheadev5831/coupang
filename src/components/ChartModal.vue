@@ -38,7 +38,7 @@
 
         <!-- SVG 혼합 차트 -->
         <div class="chart-modal__chart-wrap">
-          <svg viewBox="0 0 620 300" class="chart-modal__svg">
+          <svg viewBox="0 0 662 360" class="chart-modal__svg">
 
             <!-- 그리드 수평선 -->
             <g>
@@ -189,7 +189,7 @@ const chartData = [
 // viewBox: "0 0 620 300"
 // 차트 영역: x(72→600), y(24→244)
 // ─────────────────────────────────────────────
-const CHART = { x1: 72, x2: 600, y1: 24, y2: 244, w: 528, h: 220 };
+const CHART = { x1: 26, x2: 654, y1: 24, y2: 304, w: 628, h: 280 };
 const BAR_W = 28;
 
 // ─────────────────────────────────────────────
