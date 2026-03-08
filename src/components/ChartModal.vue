@@ -116,7 +116,7 @@ const chartOptions = computed<ApexOptions>(() => ({
   },
   dataLabels: {
     enabled: true,
-    enabledOnSeries: [1],
+    enabledOnSeries: [0, 1],
     formatter: (val: string | number | number[]) => {
       const v = typeof val === 'number' ? val : 0;
       if (!v) return '';
@@ -125,10 +125,10 @@ const chartOptions = computed<ApexOptions>(() => ({
     style: {
       fontSize: '9px',
       fontWeight: '700',
-      colors: ['#ff6b35'],
+      colors: ['#5b8def', '#ff6b35'],
     },
     background: { enabled: false },
-    offsetY: -12,
+    offsetY: -7,
   },
   markers: {
     size: [0, 4],
