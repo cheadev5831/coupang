@@ -36,6 +36,9 @@
       @click="emit('refetch')"
     />
 
+    <!-- 차트 버튼 + 모달 -->
+    <ChartModal />
+
     <!-- 저장 버튼 -->
     <q-btn
       class="summary-bar__save-btn"
@@ -54,6 +57,7 @@
 import { computed } from 'vue';
 import 'src/css/summary-bar.css';
 import type { OrderSummary } from 'src/models/order';
+import ChartModal from 'components/ChartModal.vue';
 
 const props = defineProps<{
   summary: OrderSummary;
