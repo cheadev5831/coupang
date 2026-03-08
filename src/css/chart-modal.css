@@ -84,16 +84,17 @@
   flex-shrink: 0;
 }
 
-/* ─── 차트 래퍼 ─────────────────────────────────── */
+/* ─── 차트 래퍼: 세로 50% 차지 ─────────────────── */
 .chart-modal__chart-wrap {
-  overflow-x: auto;
-  flex-shrink: 0;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
   border-radius: 4px;
 }
 
 .chart-modal__svg {
   width: 100%;
-  min-width: 340px;
+  height: 100%;
   display: block;
 }
 
@@ -207,6 +208,22 @@
 .chart-modal__table-checked {
   color: #ff6b35;
   font-weight: 600;
+}
+
+/* ─── 모바일 가로 모드: 차트만 100%, 테이블 숨김 ── */
+@media (orientation: landscape) and (max-height: 500px) {
+  .chart-modal__separator,
+  .chart-modal__table-wrap {
+    display: none;
+  }
+
+  .chart-modal__chart-wrap {
+    flex: 1;
+  }
+
+  .chart-modal__legend {
+    margin-bottom: 0;
+  }
 }
 
 /* ─── 반응형 ────────────────────────────────────── */

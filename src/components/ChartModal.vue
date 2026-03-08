@@ -134,7 +134,7 @@
         </div>
 
         <!-- 데이터 테이블 -->
-        <q-separator />
+        <q-separator class="chart-modal__separator" />
         <div class="chart-modal__table-wrap">
           <table class="chart-modal__table">
             <thead>
