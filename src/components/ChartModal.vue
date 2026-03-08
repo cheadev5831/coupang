@@ -222,7 +222,7 @@ const bars = computed(() =>
       w: BAR_W,
       h,
       cx,
-      monthLabel: d.month.slice(5), // 'MM'
+      monthLabel: d.month.slice(2).replace('-', '/'), // 'YY/MM'
       totalAmount: d.totalAmount,
     };
   }),

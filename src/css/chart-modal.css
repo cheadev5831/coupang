@@ -38,11 +38,15 @@
   letter-spacing: -0.3px;
 }
 
-/* ─── 본문 ──────────────────────────────────────── */
+/* ─── 본문: flex 세로 레이아웃으로 차트+테이블 공간 분배 ─ */
 .chart-modal__body {
   flex: 1;
-  overflow-y: auto;
-  padding: 16px 16px 12px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px 8px;
+  overflow: hidden;
 }
 
 /* ─── 범례 ──────────────────────────────────────── */
@@ -50,7 +54,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  margin-bottom: 14px;
+  flex-shrink: 0;
   padding: 0 2px;
 }
 
@@ -83,8 +87,8 @@
 /* ─── 차트 래퍼 ─────────────────────────────────── */
 .chart-modal__chart-wrap {
   overflow-x: auto;
-  margin-bottom: 12px;
-  border-radius: 8px;
+  flex-shrink: 0;
+  border-radius: 4px;
 }
 
 .chart-modal__svg {
@@ -149,14 +153,14 @@
 }
 
 .chart__label--x {
-  font-size: 9px;
+  font-size: 7.5px;
 }
 
-/* ─── 데이터 테이블 ─────────────────────────────── */
+/* ─── 데이터 테이블: 남은 공간 전부 차지 ──────────── */
 .chart-modal__table-wrap {
-  max-height: 192px;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
-  margin-top: 10px;
   border-radius: 8px;
   border: 1px solid #f0f0f0;
 }
