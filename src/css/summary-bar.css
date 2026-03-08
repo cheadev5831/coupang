@@ -97,12 +97,16 @@
   opacity: 0.3 !important;
 }
 
-@media (max-width: 360px) {
-  .summary-bar__checked-amount {
-    font-size: 18px;
+@media (max-width: 480px) {
+  .summary-bar {
+    gap: 8px;
   }
+
   .summary-bar__save-btn {
-    min-width: 60px;
-    font-size: 13px !important;
+    height: 36px;
+    min-width: 58px !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+    padding: 0 10px !important;
   }
 }

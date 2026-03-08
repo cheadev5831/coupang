@@ -214,4 +214,13 @@
   .chart-modal__body {
     padding: 12px 12px 8px;
   }
+
+  /* 차트 버튼: 저장 버튼과 동일한 비율로 축소 */
+  .chart-modal__open-btn {
+    height: 36px;
+    min-width: 58px !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+    padding: 0 10px !important;
+  }
 }
