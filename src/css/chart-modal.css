@@ -38,7 +38,7 @@
   letter-spacing: -0.3px;
 }
 
-/* ─── 본문: flex 세로 레이아웃으로 차트+테이블 공간 분배 ─ */
+/* ─── 본문 ──────────────────────────────────────── */
 .chart-modal__body {
   flex: 1;
   min-height: 0;
@@ -49,112 +49,11 @@
   overflow: hidden;
 }
 
-/* ─── 범례 ──────────────────────────────────────── */
-.chart-modal__legend {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
-  padding: 0 2px;
-}
 
-.chart-modal__legend-item {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.chart-modal__legend-text {
-  font-size: 12px;
-  font-weight: 600;
-  color: #555;
-}
-
-.chart-modal__legend-swatch--bar {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  border-radius: 3px;
-  background: #5b8def;
-  opacity: 0.85;
-}
-
-.chart-modal__legend-line-svg {
-  display: block;
-  flex-shrink: 0;
-}
-
-/* ─── 차트 래퍼: 세로 50% 차지 ─────────────────── */
+/* ─── 차트 래퍼 ─────────────────────────────────── */
 .chart-modal__chart-wrap {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  border-radius: 4px;
-}
-
-.chart-modal__svg {
+  flex-shrink: 0;
   width: 100%;
-  height: 100%;
-  display: block;
-}
-
-/* ─── SVG 그리드 ─────────────────────────────────── */
-.chart__grid-line {
-  stroke: #ebebeb;
-  stroke-width: 1;
-}
-
-/* ─── SVG 막대 (전체금액) ──────────────────────── */
-.chart__bar {
-  fill: #5b8def;
-  opacity: 0.82;
-  transition: opacity 0.15s;
-}
-
-/* ─── SVG 꺾은선 (체크금액) ───────────────────── */
-.chart__line {
-  stroke: #ff6b35;
-  stroke-width: 2.5;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-}
-
-/* ─── SVG 점 ────────────────────────────────────── */
-.chart__dot {
-  fill: #ff6b35;
-  stroke: #ffffff;
-  stroke-width: 2;
-}
-
-/* ─── SVG 데이터 레이블 ─────────────────────────── */
-.chart__data-label {
-  font-size: 8.5px;
-  font-weight: 700;
-  text-anchor: middle;
-}
-
-.chart__data-label--bar {
-  fill: #5b8def;
-}
-
-.chart__data-label--line {
-  fill: #ff6b35;
-}
-
-/* ─── SVG 레이블 ────────────────────────────────── */
-.chart__label {
-  font-size: 9.5px;
-  fill: #999;
-  text-anchor: middle;
-}
-
-.chart__label--y {
-  text-anchor: end;
-  font-size: 9px;
-}
-
-.chart__label--x {
-  font-size: 7.5px;
 }
 
 /* ─── 데이터 테이블: 남은 공간 전부 차지 ──────────── */
@@ -210,7 +109,7 @@
   font-weight: 600;
 }
 
-/* ─── 모바일 가로 모드: 차트만 100%, 테이블 숨김 ── */
+/* ─── 모바일 가로 모드: 테이블 숨김 ─────────────── */
 @media (orientation: landscape) and (max-height: 500px) {
   .chart-modal__separator,
   .chart-modal__table-wrap {
@@ -220,28 +119,29 @@
   .chart-modal__chart-wrap {
     flex: 1;
   }
-
-  .chart-modal__legend {
-    margin-bottom: 0;
-  }
 }
 
-/* ─── 반응형 ────────────────────────────────────── */
+/* ─── 반응형 (소형 모바일) ──────────────────────── */
 @media (max-width: 480px) {
-  .chart-modal__card {
-    width: 96vw;
-  }
-
   .chart-modal__body {
-    padding: 12px 12px 8px;
+    padding: 8px 8px 6px;
   }
 
-  /* 차트 버튼: 저장 버튼과 동일한 비율로 축소 */
+  /* 차트 버튼: SummaryBar 소형 비율 */
   .chart-modal__open-btn {
     height: 36px;
     min-width: 58px !important;
     font-size: 12px !important;
     border-radius: 8px !important;
     padding: 0 10px !important;
+  }
+
+  .chart-modal__table {
+    font-size: 12px;
+  }
+
+  .chart-modal__table th,
+  .chart-modal__table td {
+    padding: 7px 10px;
   }
 }

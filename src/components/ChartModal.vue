@@ -21,119 +21,14 @@
 
       <div class="chart-modal__body">
 
-        <!-- 범례 -->
-        <div class="chart-modal__legend">
-          <div class="chart-modal__legend-item">
-            <span class="chart-modal__legend-swatch chart-modal__legend-swatch--bar"></span>
-            <span class="chart-modal__legend-text">전체금액</span>
-          </div>
-          <div class="chart-modal__legend-item">
-            <svg class="chart-modal__legend-line-svg" viewBox="0 0 28 10" width="28" height="10">
-              <line x1="0" y1="5" x2="28" y2="5" stroke="#ff6b35" stroke-width="2.5" stroke-linecap="round" />
-              <circle cx="14" cy="5" r="3.5" fill="#ff6b35" stroke="white" stroke-width="1.5" />
-            </svg>
-            <span class="chart-modal__legend-text">체크금액</span>
-          </div>
-        </div>
-
-        <!-- SVG 혼합 차트 -->
+        <!-- ApexCharts 혼합 차트 -->
         <div class="chart-modal__chart-wrap">
-          <svg viewBox="0 0 662 360" class="chart-modal__svg">
-
-            <!-- 그리드 수평선 -->
-            <g>
-              <line
-                v-for="tick in yTicks"
-                :key="'grid-' + tick.label"
-                :x1="CHART.x1"
-                :y1="tick.y"
-                :x2="CHART.x2"
-                :y2="tick.y"
-                class="chart__grid-line"
-              />
-            </g>
-
-            <!-- Y축 레이블 -->
-            <g>
-              <text
-                v-for="tick in yTicks"
-                :key="'ylabel-' + tick.label"
-                :x="CHART.x1 - 6"
-                :y="tick.y + 4"
-                class="chart__label chart__label--y"
-              >{{ tick.label }}</text>
-            </g>
-
-            <!-- 막대 (전체금액, 데이터 있는 달만) -->
-            <g>
-              <rect
-                v-for="(bar, i) in bars"
-                v-show="bar.hasData"
-                :key="'bar-' + i"
-                :x="bar.x"
-                :y="bar.y"
-                :width="bar.w"
-                :height="bar.h"
-                rx="3"
-                class="chart__bar"
-              />
-            </g>
-
-            <!-- 막대 데이터 레이블 (전체금액, 데이터 있는 달만) -->
-            <g>
-              <text
-                v-for="(bar, i) in bars"
-                v-show="bar.hasData"
-                :key="'bar-label-' + i"
-                :x="bar.cx"
-                :y="bar.y - 5"
-                class="chart__data-label chart__data-label--bar"
-              >{{ formatLabel(bar.totalAmount) }}</text>
-            </g>
-
-            <!-- 꺾은선 (체크금액, 데이터 있는 달 연결) -->
-            <polyline
-              v-if="linePolyline"
-              :points="linePolyline"
-              class="chart__line"
-              fill="none"
-            />
-
-            <!-- 꺾은선 위 점 (데이터 있는 달만) -->
-            <g>
-              <circle
-                v-for="(dot, i) in dots"
-                :key="'dot-' + i"
-                :cx="dot.x"
-                :cy="dot.y"
-                r="4"
-                class="chart__dot"
-              />
-            </g>
-
-            <!-- 꺾은선 데이터 레이블 (체크금액, 데이터 있는 달만) -->
-            <g>
-              <text
-                v-for="(dot, i) in dots"
-                :key="'dot-label-' + i"
-                :x="dot.x"
-                :y="dot.y - 10"
-                class="chart__data-label chart__data-label--line"
-              >{{ formatLabel(dot.checkedAmount) }}</text>
-            </g>
-
-            <!-- X축 레이블 -->
-            <g>
-              <text
-                v-for="(bar, i) in bars"
-                :key="'xlabel-' + i"
-                :x="bar.cx"
-                :y="CHART.y2 + 18"
-                class="chart__label chart__label--x"
-              >{{ bar.monthLabel }}</text>
-            </g>
-
-          </svg>
+          <VueApexCharts
+            type="line"
+            :height="chartHeight"
+            :options="chartOptions"
+            :series="series"
+          />
         </div>
 
         <!-- 데이터 테이블 -->
@@ -164,87 +59,110 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import VueApexCharts from 'vue3-apexcharts';
+import type { ApexOptions } from 'apexcharts';
 import 'src/css/chart-modal.css';
 import { useChartData } from 'src/composables/useChartData';
 
 const dialogOpen = ref(false);
-
-// ─────────────────────────────────────────────
-// Firestore 기반 12개월 차트 데이터
-// ─────────────────────────────────────────────
 const { chartData, loadChartData } = useChartData();
 
 // ─────────────────────────────────────────────
-// SVG 차트 영역 상수
+// 화면 높이 기반 차트 높이 (모바일 가로 모드 대응)
 // ─────────────────────────────────────────────
-const CHART = { x1: 26, x2: 654, y1: 24, y2: 304, w: 628, h: 280 };
-const BAR_W = 28;
-const GROUP_W = CHART.w / 12; // 12개월 고정
-
-// ─────────────────────────────────────────────
-// Y축 최대값 (데이터 없으면 기본 100,000)
-// ─────────────────────────────────────────────
-const maxVal = computed(() => {
-  const max = Math.max(...chartData.value.map((d) => d.totalAmount), 0);
-  if (max === 0) return 100000;
-  const unit = max <= 200000 ? 50000 : 100000;
-  return Math.ceil(max / unit) * unit;
+const chartHeight = computed(() => {
+  if (typeof window === 'undefined') return 260;
+  return window.innerHeight < 500 ? 180 : 260;
 });
 
-function toY(v: number): number {
-  return CHART.y2 - (v / maxVal.value) * CHART.h;
-}
+// ─────────────────────────────────────────────
+// ApexCharts 시리즈
+// ─────────────────────────────────────────────
+const series = computed(() => [
+  {
+    name: '전체금액',
+    type: 'bar',
+    data: chartData.value.map((d) => (d.hasData ? d.totalAmount : null)),
+  },
+  {
+    name: '체크금액',
+    type: 'line',
+    data: chartData.value.map((d) => (d.hasData ? d.checkedAmount : null)),
+  },
+]);
 
 // ─────────────────────────────────────────────
-// 막대 위치 (12개월 고정 레이아웃)
+// ApexCharts 옵션
 // ─────────────────────────────────────────────
-const bars = computed(() =>
-  chartData.value.map((d, i) => {
-    const cx = CHART.x1 + GROUP_W * i + GROUP_W / 2;
-    const h = d.hasData ? (d.totalAmount / maxVal.value) * CHART.h : 0;
-    return {
-      x: cx - BAR_W / 2,
-      y: CHART.y2 - h,
-      w: BAR_W,
-      h,
-      cx,
-      monthLabel: d.month.slice(2).replace('-', '/'), // 'YY/MM'
-      totalAmount: d.totalAmount,
-      hasData: d.hasData,
-    };
-  }),
-);
-
-// ─────────────────────────────────────────────
-// 꺾은선 점 및 polyline (데이터 있는 달만)
-// ─────────────────────────────────────────────
-const dots = computed(() =>
-  chartData.value
-    .map((d, i) => ({
-      x: CHART.x1 + GROUP_W * i + GROUP_W / 2,
-      y: toY(d.checkedAmount),
-      checkedAmount: d.checkedAmount,
-      hasData: d.hasData,
-    }))
-    .filter((d) => d.hasData),
-);
-
-const linePolyline = computed(() =>
-  dots.value.map((p) => `${p.x},${p.y}`).join(' '),
-);
-
-// ─────────────────────────────────────────────
-// Y축 눈금 (6개: 0 ~ maxVal)
-// ─────────────────────────────────────────────
-const yTicks = computed(() =>
-  Array.from({ length: 6 }, (_, i) => {
-    const v = (maxVal.value / 5) * i;
-    return {
-      y: toY(v),
-      label: v === 0 ? '0' : `${Math.round(v / 10000)}만`,
-    };
-  }),
-);
+const chartOptions = computed<ApexOptions>(() => ({
+  chart: {
+    type: 'line' as const,
+    toolbar: { show: false },
+    zoom: { enabled: false },
+    fontFamily: 'Pretendard, Apple SD Gothic Neo, sans-serif',
+    background: 'transparent',
+    animations: { enabled: false },
+  },
+  colors: ['#5b8def', '#ff6b35'],
+  stroke: {
+    width: [0, 2.5],
+    curve: 'smooth',
+  },
+  plotOptions: {
+    bar: {
+      columnWidth: '52%',
+      borderRadius: 3,
+    },
+  },
+  dataLabels: {
+    enabled: true,
+    enabledOnSeries: [1],
+    formatter: (val: string | number | number[]) => {
+      const v = typeof val === 'number' ? val : 0;
+      if (!v) return '';
+      return v >= 10000 ? `${(v / 10000).toFixed(1)}만` : `${v.toLocaleString('ko-KR')}`;
+    },
+    style: {
+      fontSize: '9px',
+      fontWeight: '700',
+      colors: ['#ff6b35'],
+    },
+    background: { enabled: false },
+    offsetY: -12,
+  },
+  markers: {
+    size: [0, 4],
+    strokeWidth: 2,
+    strokeColors: '#ffffff',
+    hover: { size: 6 },
+  },
+  xaxis: {
+    categories: chartData.value.map((d) => d.month.slice(2).replace('-', '/')),
+    labels: {
+      style: { fontSize: '11px', colors: '#999' },
+    },
+    axisBorder: { show: false },
+    axisTicks: { show: false },
+  },
+  yaxis: {
+    labels: { show: false },
+  },
+  grid: {
+    borderColor: '#ebebeb',
+    strokeDashArray: 0,
+    padding: { top: 8, right: 10, bottom: 0, left: 0 },
+  },
+  tooltip: {
+    shared: true,
+    intersect: false,
+    style: { fontSize: '13px' },
+    y: {
+      formatter: (val: number | null) =>
+        val != null ? `${val.toLocaleString('ko-KR')}원` : '-',
+    },
+  },
+  legend: { show: false },
+}));
 
 // ─────────────────────────────────────────────
 // 테이블 (최신 월 우선)
@@ -253,9 +171,5 @@ const tableRows = computed(() => [...chartData.value].reverse());
 
 function formatAmt(v: number): string {
   return v.toLocaleString('ko-KR');
-}
-
-function formatLabel(v: number): string {
-  return `${(v / 10000).toFixed(1)}만`;
 }
 </script>
