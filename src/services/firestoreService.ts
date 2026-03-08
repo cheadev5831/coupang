@@ -56,3 +56,25 @@ export async function listDataMonths(): Promise<{ year: number; month: number }[
       month: parseInt(d.id.slice(4, 6), 10),
     }));
 }
+
+export async function loadMonthSummaries(
+  yyyymms: string[],
+): Promise<Map<string, { totalAmount: number; checkedAmount: number }>> {
+  const snaps = await Promise.all(yyyymms.map((m) => getDoc(doc(db, 'orders', m))));
+  const result = new Map<string, { totalAmount: number; checkedAmount: number }>();
+
+  for (let i = 0; i < yyyymms.length; i++) {
+    const snap = snaps[i];
+    if (snap && snap.exists()) {
+      const data = snap.data() as FirestoreOrderData;
+      const checkedSet = new Set(data.checkedIds ?? []);
+      const totalAmount = data.products.reduce((sum, p) => sum + p.price, 0);
+      const checkedAmount = data.products
+        .filter((p) => checkedSet.has(p.id))
+        .reduce((sum, p) => sum + p.price, 0);
+      result.set(yyyymms[i]!, { totalAmount, checkedAmount });
+    }
+  }
+
+  return result;
+}
