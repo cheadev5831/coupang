@@ -7,7 +7,7 @@ import {
   getDocs,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import type { ProductRow } from 'src/models/order';
+import type { ProductRow, UserItem } from 'src/models/order';
 
 interface FirestoreOrderData {
   yyyymm: string;
@@ -55,6 +55,17 @@ export async function listDataMonths(): Promise<{ year: number; month: number }[
       year: parseInt(d.id.slice(0, 4), 10),
       month: parseInt(d.id.slice(4, 6), 10),
     }));
+}
+
+export async function loadUserItemsFromFirestore(yyyymm: string): Promise<UserItem[]> {
+  const snap = await getDoc(doc(db, 'userItems', yyyymm));
+  if (!snap.exists()) return [];
+  const data = snap.data() as { items: UserItem[] };
+  return data.items ?? [];
+}
+
+export async function saveUserItemsToFirestore(yyyymm: string, items: UserItem[]): Promise<void> {
+  await setDoc(doc(db, 'userItems', yyyymm), { yyyymm, items });
 }
 
 export async function loadMonthSummaries(

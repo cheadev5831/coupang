@@ -17,6 +17,13 @@ export interface ProductRow {
   imageUrl: string | null;
 }
 
+export interface UserItem {
+  id: string;
+  name: string;
+  price: number;
+  createdAt: string; // YYYYMMDD
+}
+
 export interface OrderSummary {
   /** 해당 월 전체 상품 가격 합산 */
   totalAmount: number;

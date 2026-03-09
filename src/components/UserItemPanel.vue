@@ -35,7 +35,8 @@
         dense
         no-caps
         class="user-item-panel__add-btn"
-        :disable="!inputName || !inputPrice"
+        :disable="!inputName || !inputPrice || isLoading"
+        :loading="isLoading"
         @click="addItem"
       />
     </div>
@@ -75,7 +76,7 @@
           <q-item-label class="product-item__name product-item__name--checked">
             {{ item.name }}
           </q-item-label>
-          <q-item-label class="product-item__meta">사용자 추가</q-item-label>
+          <q-item-label class="product-item__meta">{{ item.createdAt ? formatDate(item.createdAt) : '사용자 추가' }}</q-item-label>
         </q-item-section>
 
         <!-- 가격 + 삭제 -->
@@ -102,39 +103,73 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed, watch } from 'vue';
 import 'src/css/user-item-panel.css';
+import type { SelectedMonth } from 'src/models/app';
+import type { UserItem } from 'src/models/order';
+import {
+  loadUserItemsFromFirestore,
+  saveUserItemsToFirestore,
+} from 'src/services/firestoreService';
 
-interface UserItem {
-  id: string;
-  name: string;
-  price: number;
+const props = defineProps<{
+  selectedMonth: SelectedMonth;
+}>();
+
+const emit = defineEmits<{
+  'update:userTotal': [total: number];
+}>();
+
+const items = ref<UserItem[]>([]);
+const isLoading = ref(false);
+
+const yyyymm = computed(
+  () => `${props.selectedMonth.year}${String(props.selectedMonth.month).padStart(2, '0')}`,
+);
+
+const userTotal = computed(() => items.value.reduce((sum, item) => sum + item.price, 0));
+watch(userTotal, (val) => emit('update:userTotal', val), { immediate: true });
+
+function formatDate(yyyymmdd: string): string {
+  return `${yyyymmdd.slice(0, 4)}.${yyyymmdd.slice(4, 6)}.${yyyymmdd.slice(6, 8)}`;
 }
 
-// ─── 임시 목업 데이터 ─────────────────────────────
-const items = ref<UserItem[]>([
-  { id: 'user-1', name: '스타벅스 아메리카노 텀블러', price: 29000 },
-  { id: 'user-2', name: '편의점 간식 모음', price: 7500 },
-]);
+// ─── 로드 ─────────────────────────────────────────
+async function loadItems() {
+  isLoading.value = true;
+  try {
+    items.value = await loadUserItemsFromFirestore(yyyymm.value);
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+watch(yyyymm, loadItems, { immediate: true });
 
 // ─── 입력 상태 ────────────────────────────────────
 const inputName = ref('');
 const inputPrice = ref<number | null>(null);
 
 // ─── 추가 ─────────────────────────────────────────
-function addItem() {
+async function addItem() {
   if (!inputName.value || !inputPrice.value) return;
-  items.value.push({
+  const now = new Date();
+  const createdAt = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
+  const newItem: UserItem = {
     id: `user-${Date.now()}`,
     name: inputName.value,
     price: inputPrice.value,
-  });
+    createdAt,
+  };
+  items.value = [...items.value, newItem];
   inputName.value = '';
   inputPrice.value = null;
+  await saveUserItemsToFirestore(yyyymm.value, items.value);
 }
 
 // ─── 삭제 ─────────────────────────────────────────
-function removeItem(id: string) {
+async function removeItem(id: string) {
   items.value = items.value.filter((item) => item.id !== id);
+  await saveUserItemsToFirestore(yyyymm.value, items.value);
 }
 </script>
