@@ -18,6 +18,9 @@
       @fetch="onFetch"
     />
 
+    <!-- 사용자 추가 목록 -->
+    <UserItemPanel />
+
     <!-- 저장 실패 배너 -->
     <q-banner
       v-if="saveErrorMessage"
@@ -89,6 +92,7 @@ import { useQuasar } from 'quasar';
 
 import CookiePanel from 'components/CookiePanel.vue';
 import MonthSelector from 'components/MonthSelector.vue';
+import UserItemPanel from 'components/UserItemPanel.vue';
 import SummaryBar from 'components/SummaryBar.vue';
 import ProductList from 'components/ProductList.vue';
 
