@@ -1,77 +1,139 @@
 <template>
   <div class="card-base section-gap">
-    <!-- 연도 + 월 버튼 통합 1행 -->
     <div class="month-selector__row">
-      <!-- 연도 컨트롤 (세로 배치) -->
-      <div class="month-selector__year-control">
-        <q-btn
-          flat
-          round
-          dense
-          icon="expand_less"
-          color="grey-7"
-          size="xs"
-          :disable="loading || year >= currentYear"
-          @click="nextYear"
-        />
-        <span class="month-selector__year-label">{{ year }}년</span>
-        <q-btn
-          flat
-          round
-          dense
-          icon="expand_more"
-          color="grey-7"
-          size="xs"
+
+      <!-- DatePicker 트리거 -->
+      <div
+        class="month-selector__trigger"
+        :class="{ 'month-selector__trigger--disabled': loading }"
+      >
+        <q-icon name="calendar_month" size="15px" class="month-selector__cal-icon" />
+        <span class="month-selector__value">{{ year }}년<br />{{ selectedMonth }}월</span>
+        <q-spinner v-if="loading" color="grey-4" size="13px" class="month-selector__spinner" />
+        <q-icon v-else name="keyboard_arrow_down" size="16px" class="month-selector__arrow" />
+
+        <q-popup-proxy
+          ref="qDatePopup"
+          transition-show="scale"
+          transition-hide="scale"
           :disable="loading"
-          @click="prevYear"
+        >
+          <q-date
+            :model-value="year + '/' + String(selectedMonth).padStart(2, '0')"
+            mask="YYYY/MM"
+            default-view="Months"
+            :navigation-max-year-month="currentYear + '/12'"
+            emit-immediately
+            minimal
+            @update:model-value="onDateSelect"
+          />
+        </q-popup-proxy>
+      </div>
+
+      <!-- 세로 구분선 -->
+      <q-separator vertical class="month-selector__divider" />
+
+      <!-- 금액 요약 -->
+      <div class="month-selector__amounts">
+        <div class="month-selector__amount-item">
+          <q-icon name="receipt_long" size="13px" class="month-selector__amount-icon--order" />
+          <span class="month-selector__amount-label">주문</span>
+          <span class="month-selector__amount-value month-selector__amount-value--order">{{ orderAmountLabel }}</span>
+        </div>
+        <div class="month-selector__amount-item">
+          <q-icon name="add_shopping_cart" size="13px" class="month-selector__amount-icon--user" />
+          <span class="month-selector__amount-label">추가</span>
+          <span class="month-selector__amount-value month-selector__amount-value--user">{{ userAmountLabel }}</span>
+        </div>
+        <div class="month-selector__amount-item month-selector__amount-item--total">
+          <q-icon name="functions" size="13px" class="month-selector__amount-icon--total" />
+          <span class="month-selector__amount-label">합계</span>
+          <span class="month-selector__amount-value month-selector__amount-value--total">{{ totalAmountLabel }}</span>
+        </div>
+      </div>
+
+      <!-- 세로 구분선 -->
+      <q-separator vertical class="month-selector__divider" />
+
+      <!-- 액션 버튼 그룹 -->
+      <div class="month-selector__actions">
+        <q-btn
+          v-if="showRefetch"
+          class="month-selector__btn month-selector__btn--refetch"
+          unelevated
+          :loading="isRefetching"
+          :disable="isRefetching || isSaving || isFetching"
+          icon="refresh"
+          label="재조회"
+          @click="emit('refetch')"
+        />
+        <ChartModal />
+        <q-btn
+          class="month-selector__btn month-selector__btn--save"
+          unelevated
+          :loading="isSaving"
+          :disable="!hasFetched || isSaving"
+          icon="cloud_upload"
+          label="저장"
+          @click="emit('save')"
         />
       </div>
 
-      <!-- 월 버튼 6x2 그리드 -->
-      <div class="month-selector__months">
-        <q-btn
-          v-for="m in 12"
-          :key="m"
-          :label="`${m}월`"
-          :color="selectedMonth === m ? 'primary' : 'grey-2'"
-          :text-color="selectedMonth === m ? 'white' : 'grey-7'"
-          unelevated
-          dense
-          no-caps
-          size="sm"
-          :disable="loading"
-          :class="[
-            'month-selector__month-btn',
-            selectedMonth === m ? 'month-selector__month-btn--active' : '',
-            props.monthsWithData?.includes(m) ? 'month-selector__month-btn--has-data' : '',
-          ]"
-          @click="selectMonth(m)"
-        />
-      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 import 'src/css/month-selector.css';
 import type { SelectedMonth } from 'src/models/app';
+import type { OrderSummary } from 'src/models/order';
+import ChartModal from 'components/ChartModal.vue';
 
 const props = defineProps<{
   modelValue: SelectedMonth;
   loading?: boolean;
   monthsWithData?: number[];
   allMonthsWithData?: Map<number, number[]>;
+  summary?: OrderSummary;
+  userTotal?: number;
+  isSaving?: boolean;
+  isRefetching?: boolean;
+  isFetching?: boolean;
+  showRefetch?: boolean;
+  hasFetched?: boolean;
 }>();
 
 const emit = defineEmits<{
   'update:modelValue': [value: SelectedMonth];
   fetch: [];
+  save: [];
+  refetch: [];
 }>();
 
 const currentYear = new Date().getFullYear();
 const year = ref(props.modelValue.year);
 const selectedMonth = ref(props.modelValue.month);
+const qDatePopup = ref<{ hide: () => void }>();
+
+const orderAmountLabel = computed(() =>
+  props.summary !== undefined
+    ? props.summary.checkedAmount.toLocaleString('ko-KR') + '원'
+    : '—',
+);
+
+const userAmountLabel = computed(() =>
+  props.userTotal !== undefined
+    ? props.userTotal.toLocaleString('ko-KR') + '원'
+    : '—',
+);
+
+const totalAmountLabel = computed(() => {
+  const order = props.summary?.checkedAmount;
+  const user = props.userTotal;
+  if (order === undefined && user === undefined) return '—';
+  return ((order ?? 0) + (user ?? 0)).toLocaleString('ko-KR') + '원';
+});
 
 watch(
   () => props.modelValue,
@@ -81,23 +143,10 @@ watch(
   },
 );
 
-function prevYear() {
-  const targetYear = year.value - 1;
-  const months = props.allMonthsWithData?.get(targetYear) ?? [];
-  year.value = targetYear;
-  selectedMonth.value = months.length > 0 ? Math.max(...months) : 12;
-  emitUpdate();
-  if (months.length > 0) emit('fetch');
-}
-
-function nextYear() {
-  if (year.value >= currentYear) return;
-  const targetYear = year.value + 1;
-  const months = props.allMonthsWithData?.get(targetYear) ?? [];
-  year.value = targetYear;
-  selectedMonth.value = months.length > 0 ? Math.min(...months) : 1;
-  emitUpdate();
-  if (months.length > 0) emit('fetch');
+function onDateSelect(val: string) {
+  year.value = Number(val.slice(0, 4));
+  selectMonth(Number(val.slice(5, 7)));
+  qDatePopup.value?.hide();
 }
 
 function selectMonth(m: number) {

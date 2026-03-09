@@ -14,12 +14,21 @@
       :loading="isFetching"
       :months-with-data="monthsWithData"
       :all-months-with-data="monthsWithDataByYear"
+      :summary="summary"
+      :user-total="userTotal"
+      :is-saving="isSaving"
+      :is-refetching="isRefetching"
+      :is-fetching="isFetching"
+      :show-refetch="isDesktop"
+      :has-fetched="hasFetched"
       @update:model-value="Object.assign(selectedMonth, $event)"
       @fetch="onFetch"
+      @save="onSave"
+      @refetch="onRefetch"
     />
 
     <!-- 사용자 추가 목록 -->
-    <UserItemPanel />
+    <UserItemPanel :selected-month="selectedMonth" @update:user-total="userTotal = $event" />
 
     <!-- 저장 실패 배너 -->
     <q-banner
@@ -75,13 +84,7 @@
     <!-- 하단 고정 금액 집계 바 -->
     <SummaryBar
       :summary="summary"
-      :is-saving="isSaving"
-      :is-refetching="isRefetching"
-      :is-fetching="isFetching"
-      :show-refetch="isDesktop"
       @toggle-all="onToggleAll"
-      @save="onSave"
-      @refetch="onRefetch"
     />
   </q-page>
 </template>
@@ -128,6 +131,7 @@ const cookieState = reactive<CookieState>({ ...defaultCookieState });
 const selectedMonth = reactive<SelectedMonth>({ ...defaultSelectedMonth });
 const currentProducts = ref<ProductRow[]>([]);
 const currentCheckedIds = ref<Set<string>>(new Set());
+const userTotal = ref(0);
 const isFetching = ref(false);
 const isSaving = ref(false);
 const isRefetching = ref(false);
