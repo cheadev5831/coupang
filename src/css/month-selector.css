@@ -12,14 +12,16 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 10px;
+  padding: 6px 9px 6px 9px;
   border: 1.5px solid #e0e0e0;
   border-radius: 8px;
   cursor: pointer;
   background: #ffffff;
   user-select: none;
   flex-shrink: 0;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .month-selector__trigger:hover:not(.month-selector__trigger--disabled) {
@@ -72,6 +74,7 @@
   justify-content: center;
   gap: 5px;
   min-width: 0;
+  flex: 1;
 }
 
 .month-selector__amount-item {

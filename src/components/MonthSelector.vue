@@ -1,14 +1,14 @@
 <template>
   <div class="card-base section-gap">
     <div class="month-selector__row">
-
       <!-- DatePicker 트리거 -->
       <div
         class="month-selector__trigger"
         :class="{ 'month-selector__trigger--disabled': loading }"
       >
-        <q-icon name="calendar_month" size="15px" class="month-selector__cal-icon" />
-        <span class="month-selector__value">{{ year }}년<br />{{ selectedMonth }}월</span>
+        <span class="month-selector__value"
+          >{{ String(year).slice(-2) }}년<br />{{ String(selectedMonth).padStart(2, '0') }}월</span
+        >
         <q-spinner v-if="loading" color="grey-4" size="13px" class="month-selector__spinner" />
         <q-icon v-else name="keyboard_arrow_down" size="16px" class="month-selector__arrow" />
 
@@ -38,17 +38,23 @@
         <div class="month-selector__amount-item">
           <q-icon name="receipt_long" size="13px" class="month-selector__amount-icon--order" />
           <span class="month-selector__amount-label">주문</span>
-          <span class="month-selector__amount-value month-selector__amount-value--order">{{ orderAmountLabel }}</span>
+          <span class="month-selector__amount-value month-selector__amount-value--order">{{
+            orderAmountLabel
+          }}</span>
         </div>
         <div class="month-selector__amount-item">
           <q-icon name="add_shopping_cart" size="13px" class="month-selector__amount-icon--user" />
           <span class="month-selector__amount-label">추가</span>
-          <span class="month-selector__amount-value month-selector__amount-value--user">{{ userAmountLabel }}</span>
+          <span class="month-selector__amount-value month-selector__amount-value--user">{{
+            userAmountLabel
+          }}</span>
         </div>
         <div class="month-selector__amount-item month-selector__amount-item--total">
           <q-icon name="functions" size="13px" class="month-selector__amount-icon--total" />
           <span class="month-selector__amount-label">합계</span>
-          <span class="month-selector__amount-value month-selector__amount-value--total">{{ totalAmountLabel }}</span>
+          <span class="month-selector__amount-value month-selector__amount-value--total">{{
+            totalAmountLabel
+          }}</span>
         </div>
       </div>
 
@@ -78,7 +84,6 @@
           @click="emit('save')"
         />
       </div>
-
     </div>
   </div>
 </template>
@@ -117,15 +122,11 @@ const selectedMonth = ref(props.modelValue.month);
 const qDatePopup = ref<{ hide: () => void }>();
 
 const orderAmountLabel = computed(() =>
-  props.summary !== undefined
-    ? props.summary.checkedAmount.toLocaleString('ko-KR') + '원'
-    : '—',
+  props.summary !== undefined ? props.summary.checkedAmount.toLocaleString('ko-KR') + '원' : '—',
 );
 
 const userAmountLabel = computed(() =>
-  props.userTotal !== undefined
-    ? props.userTotal.toLocaleString('ko-KR') + '원'
-    : '—',
+  props.userTotal !== undefined ? props.userTotal.toLocaleString('ko-KR') + '원' : '—',
 );
 
 const totalAmountLabel = computed(() => {
