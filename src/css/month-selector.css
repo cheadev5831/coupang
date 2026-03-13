@@ -162,3 +162,29 @@
 .month-selector__amount-value--total {
   color: #1a1a2e;
 }
+
+/* ─── 날짜 팝업 ─────────────────────────────────── */
+.month-selector__date-popup {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.month-selector__year-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px 4px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.month-selector__year-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: -0.3px;
+}
+
+.month-selector__year-btn {
+  color: #757575 !important;
+}

@@ -18,15 +18,38 @@
           transition-hide="scale"
           :disable="loading"
         >
-          <q-date
-            :model-value="year + '/' + String(selectedMonth).padStart(2, '0')"
-            mask="YYYY/MM"
-            default-view="Months"
-            :navigation-max-year-month="currentYear + '/12'"
-            emit-immediately
-            minimal
-            @update:model-value="onDateSelect"
-          />
+          <div class="month-selector__date-popup">
+            <div class="month-selector__year-nav">
+              <q-btn
+                flat
+                round
+                dense
+                icon="chevron_left"
+                class="month-selector__year-btn"
+                :disable="popupYear <= 2010"
+                @click.stop="popupYear--"
+              />
+              <span class="month-selector__year-label">{{ popupYear }}년</span>
+              <q-btn
+                flat
+                round
+                dense
+                icon="chevron_right"
+                class="month-selector__year-btn"
+                :disable="popupYear >= currentYear"
+                @click.stop="popupYear++"
+              />
+            </div>
+            <q-date
+              :model-value="popupYear + '/' + String(selectedMonth).padStart(2, '0')"
+              mask="YYYY/MM"
+              default-view="Months"
+              :navigation-max-year-month="currentYear + '/12'"
+              emit-immediately
+              minimal
+              @update:model-value="onDateSelect"
+            />
+          </div>
         </q-popup-proxy>
       </div>
 
@@ -119,6 +142,7 @@ const emit = defineEmits<{
 const currentYear = new Date().getFullYear();
 const year = ref(props.modelValue.year);
 const selectedMonth = ref(props.modelValue.month);
+const popupYear = ref(props.modelValue.year);
 const qDatePopup = ref<{ hide: () => void }>();
 
 const orderAmountLabel = computed(() =>
@@ -141,11 +165,12 @@ watch(
   (val) => {
     year.value = val.year;
     selectedMonth.value = val.month;
+    popupYear.value = val.year;
   },
 );
 
 function onDateSelect(val: string) {
-  year.value = Number(val.slice(0, 4));
+  year.value = popupYear.value;
   selectMonth(Number(val.slice(5, 7)));
   qDatePopup.value?.hide();
 }
