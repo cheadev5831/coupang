@@ -59,6 +59,11 @@
   opacity: 1;
 }
 
+/* ─── 음수 가격 (체크 상태) ──────────────────────── */
+.product-item__price--negative-checked {
+  color: #1976d2 !important;
+}
+
 /* ─── 빈 목록 ───────────────────────────────────── */
 .user-item-panel__empty {
   padding: 20px 16px;

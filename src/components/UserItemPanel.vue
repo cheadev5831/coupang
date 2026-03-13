@@ -82,7 +82,12 @@
         <!-- 가격 + 삭제 -->
         <q-item-section side>
           <div class="user-item-panel__price-row">
-            <span class="product-item__price product-item__price--checked">
+            <span
+              :class="[
+                'product-item__price',
+                item.price < 0 ? 'product-item__price--negative-checked' : 'product-item__price--checked',
+              ]"
+            >
               {{ item.price.toLocaleString('ko-KR') }}원
             </span>
             <q-btn
